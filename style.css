@@ -1,4 +1,8 @@
 /* global resetters */
+
+/* TODO
+hide a row/ column label when the screen is getting small etc
+in other words make the website more reponsive */
 *,
 *::before,
 *::after {
@@ -31,16 +35,14 @@ body {
 
 .content {
   display: grid;
-  grid-template-columns: 5vmin 81vmin 5vmin;
-  grid-template-rows: 5vmin 84vmin 5vmin;
+  /* make media queries here, condition: if (width<height) ... else .... */
+  grid-template-columns: 5vmin 75vmin 5vmin 25vmin;
+  grid-template-rows: 5vmin 75vmin 5vmin;
   gap: 1vmin;
 }
 
 /* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
 #chess-div {
-  height: 84vmin;
-  width: 81vmin;
-
   background-color: #eee;
   color: #333;
   border: 0.1rem solid black;
@@ -51,6 +53,41 @@ body {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
+}
+
+.notification-sink{
+  font-weight: bold;
+  background-color: #fff;
+  color: #333;
+  grid-column: 4 / span 1;
+  grid-row: 2/span 1;
+  font-size: 2vmin;
+  padding: 1.2vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-sink__upper{  
+  overflow: hidden;
+}
+
+#clear-notifications-btn{
+  font-size: 2vmin;
+  padding: 1vmin 3vmin 1vmin 3vmin;
+  background-color: firebrick;
+  color: white;
+  font-weight: bolder;
+}
+
+.notifications-body{
+  height: auto;
+
+}
+
+h2{
+  font-size: 3vmin;
 }
 
 .black {
@@ -159,4 +196,20 @@ body {
 
 .white-pawn {
   background-image: url(img/white-pawn.png);
+}
+
+.warning{
+  color: darkgoldenrod
+}
+
+.danger{
+  color: orangered
+}
+
+.success {
+  color: green;
+}
+
+.info {
+  color: rgb(9, 113, 218);
 }

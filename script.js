@@ -6,15 +6,29 @@
 
 // now I realise that it would take a lot more sense to turn ths thing into a class and use getters, methods etc
 
+function sendNotification(message, severity){
+  let messageWrapper = document.createElement('p')
+  let hr = document.createElement('hr')
+  let messageElement = document.createTextNode(`${notificationsCount++}. ${message}`)
+  messageWrapper.appendChild(messageElement)
+  messageWrapper.appendChild(hr)
+  messageWrapper.classList.add(severity)
+  // notificationsBody.appendChild(messageWrapper)
+  notificationsBody.insertBefore(messageWrapper, notificationsBody.firstChild)
+}
+
+function clearNotifications(){
+  notificationsBody.innerHTML=''
+}
+
 function calculateValidMoves() {
   let pieceName = getPieceName();
-  console.log(pieceName, ",,,,,,,,,,,,,,,,,");
   let piecePos = getPiecePos();
-  if (pieceName === "white-pawn") {
-    console.log("wp");
-  } else {
-    console.log("dont't know about pieces other than pawns");
-  }
+  // if (pieceName === "white-pawn") {
+  //   sendNotification('selected white-pawn', 'success')
+  // } else {
+  //   sendNotification('Dont know about pieces other than pawns', 'warning')
+  // }
 }
 
 function initializePieces() {
@@ -59,17 +73,16 @@ function getPieceName() {
   return selectedPiece.classList.item(4);
 }
 
-function checkIfMoveIsValid() {
-  let pieceName = getPieceName();
-  console.log(getPiecePos(), getSquarePos());
-  return true;
-}
+// function checkIfMoveIsValid() {
+//   let pieceName = getPieceName();
+//   return true;
+// }
 
 function initializeNextTurn() {
   isWhitesTurn = !isWhitesTurn;
   selectedSquare = null;
   selectedPiece = null;
-  console.log(`It's now ${isWhitesTurn ? "white" : "black"}s' turn`);
+  sendNotification(`It's now ${isWhitesTurn ? "white" : "black"}s' turn`, 'info')
 }
 
 // moves selected piece to the selected square
@@ -122,7 +135,6 @@ function checkIfSelectedEnemyPiece(square) {
 
 function checkForMate() {}
 
-function sendNotification(message) {}
 
 // listener shouldn't do all the logic, it should call the logic only if nessesary.
 // the way it works now, each time everything is calculated to every square
@@ -137,7 +149,7 @@ function addListenersToSquares() {
 
       // if you select an empty square, and no piece prior
       if (!selectedPiece && empty) {
-        console.log("You have to select a piece first");
+        sendNotification("Selected empty square. Select your piece first.", 'danger')
       }
 
       // if you have selected a piece, but then selected another
@@ -146,10 +158,11 @@ function addListenersToSquares() {
       // also check if move is valid
       else if (selectedPiece && !empty) {
         if (checkIfSelectedEnemyPiece(square)) {
-          console.log(`You want to attack ${row}${col}`);
+          sendNotification(`You want to attack ${row}${col}`, 'info')
           initializeNextTurn();
         } else {
           console.log(`You switched a piece you control to ${row}${col}`);
+          sendNotification(`You switched a piece you control to ${row}${col}`, 'info')
           selectedPiece = square;
           calculateValidMoves();
         }
@@ -170,20 +183,24 @@ function addListenersToSquares() {
       else if (!selectedSquare && !empty) {
         // console.log(`You have selected ${row}${col}`);
         if (checkIfSelectedEnemyPiece(square)) {
-          console.log("You first have to select you piece, then enemy's");
+          sendNotification("Selected enemy piece. First select your piece", "danger");
         } else {
           selectedPiece = square;
-          console.log(`You have selected ${row}${col}`);
+          sendNotification(`Selected ${row}${col}`, 'info');
         }
       }
     });
   });
 }
 
+let notificationsCount = 1;
 let isWhitesTurn = true;
 let selectedSquare = null;
 let selectedPiece = null;
 const chessDiv = document.getElementById("chess-div");
+const notificationsBody = document.getElementById('notifications-body')
+const clearNotificationsBtn = document.getElementById('clear-notifications-btn')
+clearNotificationsBtn.addEventListener('click', clearNotifications)
 initializeBoard();
 initializePieces();
 addListenersToSquares();
