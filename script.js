@@ -6,19 +6,21 @@
 
 // now I realise that it would take a lot more sense to turn ths thing into a class and use getters, methods etc
 
-function sendNotification(message, severity){
-  let messageWrapper = document.createElement('p')
-  let hr = document.createElement('hr')
-  let messageElement = document.createTextNode(`${notificationsCount++}. ${message}`)
-  messageWrapper.appendChild(messageElement)
-  messageWrapper.appendChild(hr)
-  messageWrapper.classList.add(severity)
+function sendNotification(message, severity) {
+  let messageWrapper = document.createElement("p");
+  let hr = document.createElement("hr");
+  let messageElement = document.createTextNode(
+    `${notificationsCount++}. ${message}`
+  );
+  messageWrapper.appendChild(messageElement);
+  messageWrapper.appendChild(hr);
+  messageWrapper.classList.add(severity);
   // notificationsBody.appendChild(messageWrapper)
-  notificationsBody.insertBefore(messageWrapper, notificationsBody.firstChild)
+  notificationsBody.insertBefore(messageWrapper, notificationsBody.firstChild);
 }
 
-function clearNotifications(){
-  notificationsBody.innerHTML=''
+function clearNotifications() {
+  notificationsBody.innerHTML = "";
 }
 
 function calculateValidMoves() {
@@ -78,11 +80,20 @@ function getPieceName() {
 //   return true;
 // }
 
+function changeTurnIndicators() {
+  whitesTurnIndicator.classList.toggle("hidden");
+  blacksTurnIndicator.classList.toggle("hidden");
+}
+
 function initializeNextTurn() {
   isWhitesTurn = !isWhitesTurn;
+  changeTurnIndicators();
   selectedSquare = null;
   selectedPiece = null;
-  sendNotification(`It's now ${isWhitesTurn ? "white" : "black"}s' turn`, 'info')
+  sendNotification(
+    `It's now ${isWhitesTurn ? "white" : "black"}s' turn`,
+    "info"
+  );
 }
 
 // moves selected piece to the selected square
@@ -135,7 +146,6 @@ function checkIfSelectedEnemyPiece(square) {
 
 function checkForMate() {}
 
-
 // listener shouldn't do all the logic, it should call the logic only if nessesary.
 // the way it works now, each time everything is calculated to every square
 // it would be better to do it only after you click the button
@@ -149,7 +159,10 @@ function addListenersToSquares() {
 
       // if you select an empty square, and no piece prior
       if (!selectedPiece && empty) {
-        sendNotification("Selected empty square. Select your piece first.", 'danger')
+        sendNotification(
+          "Selected empty square. Select your piece first.",
+          "danger"
+        );
       }
 
       // if you have selected a piece, but then selected another
@@ -158,11 +171,13 @@ function addListenersToSquares() {
       // also check if move is valid
       else if (selectedPiece && !empty) {
         if (checkIfSelectedEnemyPiece(square)) {
-          sendNotification(`You want to attack ${row}${col}`, 'info')
+          sendNotification(`You want to attack ${row}${col}`, "info");
           initializeNextTurn();
         } else {
-          console.log(`You switched a piece you control to ${row}${col}`);
-          sendNotification(`You switched a piece you control to ${row}${col}`, 'info')
+          sendNotification(
+            `You switched a piece you control to ${row}${col}`,
+            "info"
+          );
           selectedPiece = square;
           calculateValidMoves();
         }
@@ -171,7 +186,7 @@ function addListenersToSquares() {
       // if you selected a piece and then empty square
       // we have to check if the move is valid
       else if (selectedPiece && empty) {
-        console.log(`You moved to ${row}${col}`);
+        sendNotification(`You moved to ${row}${col}`)
         selectedSquare = square;
         calculateValidMoves();
         moviePiece(selectedPiece, selectedSquare);
@@ -181,12 +196,14 @@ function addListenersToSquares() {
       // it is the first piece you selected
       // check if you selected a piece of your color
       else if (!selectedSquare && !empty) {
-        // console.log(`You have selected ${row}${col}`);
         if (checkIfSelectedEnemyPiece(square)) {
-          sendNotification("Selected enemy piece. First select your piece", "danger");
+          sendNotification(
+            "Selected enemy piece. First select your piece",
+            "danger"
+          );
         } else {
           selectedPiece = square;
-          sendNotification(`Selected ${row}${col}`, 'info');
+          sendNotification(`Selected ${row}${col}`, "info");
         }
       }
     });
@@ -198,9 +215,13 @@ let isWhitesTurn = true;
 let selectedSquare = null;
 let selectedPiece = null;
 const chessDiv = document.getElementById("chess-div");
-const notificationsBody = document.getElementById('notifications-body')
-const clearNotificationsBtn = document.getElementById('clear-notifications-btn')
-clearNotificationsBtn.addEventListener('click', clearNotifications)
+const notificationsBody = document.getElementById("notifications-body");
+const clearNotificationsBtn = document.getElementById(
+  "clear-notifications-btn"
+);
+const whitesTurnIndicator = document.getElementById("whites-turn");
+const blacksTurnIndicator = document.getElementById("blacks-turn");
+clearNotificationsBtn.addEventListener("click", clearNotifications);
 initializeBoard();
 initializePieces();
 addListenersToSquares();
