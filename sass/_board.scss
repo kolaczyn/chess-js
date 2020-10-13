@@ -16,23 +16,21 @@
 }
 
 .black {
-  background-color: #a77;
+  background-color: $color-board-black;
 }
 
 .white {
-  background-color: #eee;
+  background-color: $color-board-white;
 }
 
 /* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
 #chess-div {
-  background-color: #eee;
+  background-color: $color-board-white;
   color: #333;
-  border: 0.1rem solid black;
 
   cursor: pointer;
 
   display: flex;
   flex-wrap: wrap;
-  /* salign-items: center; */
   justify-content: center;
 }

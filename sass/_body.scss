@@ -1,10 +1,9 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Roboto Slab', serif;
 
   height: 100vh;
   width: 100ww;
-  color: #eee;
-  background-color: #333;
+  background-color: $color-background;
 
   display: flex;
   align-items: center;

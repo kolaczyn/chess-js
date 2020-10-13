@@ -1,7 +1,7 @@
 .notification-sink {
   font-weight: bold;
   background-color: #fff;
-  color: #333;
+  color: $color-black;
   grid-column: 4 / span 1;
   grid-row: 2 / span 1;
   font-size: 2vmin;
@@ -15,14 +15,30 @@
 }
 
 #clear-notifications-btn {
-  font-size: 2vmin;
+  font-size: 2.5vmin;
   padding: 1vmin 3vmin 1vmin 3vmin;
   margin-top: 4vmin;
-  background-color: firebrick;
+  background-color: $color-primary;
   color: white;
   font-weight: bolder;
 }
 
 .notifications-body {
   height: auto;
+}
+
+.warning {
+  color: $color-warning;
+}
+
+.danger {
+  color: $color-danger;
+}
+
+.success {
+  color: $color-success;
+}
+
+.info {
+  color: $color-info;
 }

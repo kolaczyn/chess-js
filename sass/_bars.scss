@@ -22,8 +22,9 @@
 
 .bar {
   background-color: #eee;
-  color: #333;
+  color: $color-black;
   display: flex;
+  font-weight: 500;
   justify-content: space-around;
   font-size: 5vmin;
   align-items: center;
