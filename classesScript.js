@@ -1,16 +1,20 @@
-
 // manages notifications
 class Notifications {
   constructor() {
     this.notificationsCount = 1;
     this.notificationsBody = document.getElementById("notifications-body");
+    console.log(this.notificationsBody);
     this.clearNotificationsBtn = document.getElementById(
       "clear-notifications-btn"
     );
-    this.clearNotificationsBtn.addEventListener("click", this.clearNotifications);
+    this.clearNotificationsBtn.addEventListener("click", () =>
+      this.clearNotifications()
+    );
   }
   clearNotifications() {
-    notificationsBody.innerHTML = "";
+    // this.notificationsBody.innerHTML = "";
+    // console.log(this)
+    this.notificationsBody.innerHTML = "";
   }
   sendNotification(message, severity) {
     let messageWrapper = document.createElement("p");
@@ -52,7 +56,6 @@ class Game {
 
     this.notifications = new Notifications();
     this.turnIndicator = new TurnIndicator();
-
 
     this.isWhitesTurn = true;
     this.selectedSquare = null;
@@ -175,7 +178,10 @@ class Game {
         // also check if move is valid
         else if (this.selectedPiece && !empty) {
           if (this.checkIfSelectedEnemyPiece(square)) {
-            this.notifications.sendNotification(`You want to attack ${row}${col}`, "info");
+            this.notifications.sendNotification(
+              `You want to attack ${row}${col}`,
+              "info"
+            );
             initializeNextTurn();
           } else {
             this.notifications.sendNotification(
@@ -207,7 +213,10 @@ class Game {
             );
           } else {
             this.selectedPiece = square;
-            this.notifications.sendNotification(`Selected ${row}${col}`, "info");
+            this.notifications.sendNotification(
+              `Selected ${row}${col}`,
+              "info"
+            );
           }
         }
       });
