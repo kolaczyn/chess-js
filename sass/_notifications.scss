@@ -1,0 +1,28 @@
+.notification-sink {
+  font-weight: bold;
+  background-color: #fff;
+  color: #333;
+  grid-column: 4 / span 1;
+  grid-row: 2 / span 1;
+  font-size: 2vmin;
+  padding: 1.2vmin;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  &__upper {
+    overflow: hidden;
+  }
+}
+
+#clear-notifications-btn {
+  font-size: 2vmin;
+  padding: 1vmin 3vmin 1vmin 3vmin;
+  margin-top: 4vmin;
+  background-color: firebrick;
+  color: white;
+  font-weight: bolder;
+}
+
+.notifications-body {
+  height: auto;
+}

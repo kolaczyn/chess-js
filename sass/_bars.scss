@@ -1,0 +1,30 @@
+.rows-bar {
+  flex-direction: column;
+}
+
+.cols-bar {
+  grid-column: 2 / span 1;
+  flex-direction: row;
+}
+
+.north-bar {
+  grid-column: 2 / span 1;
+}
+
+.west-bar {
+  grid-row: 2 / span 1;
+}
+
+.east-bar {
+  grid-row: 2 / span 1;
+  grid-column: 3 / span 1;
+}
+
+.bar {
+  background-color: #eee;
+  color: #333;
+  display: flex;
+  justify-content: space-around;
+  font-size: 5vmin;
+  align-items: center;
+}

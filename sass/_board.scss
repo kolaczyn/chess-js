@@ -1,0 +1,38 @@
+.square {
+  height: 12%;
+  width: 12.4%;
+  margin: 0;
+  padding: 0;
+
+  background-size: cover;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#chess-div {
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
+}
+
+.black {
+  background-color: #a77;
+}
+
+.white {
+  background-color: #eee;
+}
+
+/* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
+#chess-div {
+  background-color: #eee;
+  color: #333;
+  border: 0.1rem solid black;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-wrap: wrap;
+  /* salign-items: center; */
+  justify-content: center;
+}
