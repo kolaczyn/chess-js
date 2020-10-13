@@ -1,0 +1,162 @@
+/* global resetters */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  border: 0;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+body {
+  font-family: sans-serif;
+
+  height: 100vh;
+  width: 100ww;
+  color: #eee;
+  background-color: #333;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 5vmin 81vmin 5vmin;
+  grid-template-rows: 5vmin 84vmin 5vmin;
+  gap: 1vmin;
+}
+
+/* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
+#chess-div {
+  height: 84vmin;
+  width: 81vmin;
+
+  background-color: #eee;
+  color: #333;
+  border: 0.1rem solid black;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.black {
+  background-color: #a77;
+}
+
+.white {
+  background-color: #eee;
+}
+
+.bar {
+  background-color: #eee;
+  color: #333;
+  display: flex;
+  justify-content: space-around;
+  font-size: 5vmin;
+  align-items: center;
+}
+
+.rows-bar {
+  flex-direction: column;
+}
+
+.cols-bar {
+  grid-column: 2 / span 1;
+  flex-direction: row;
+}
+
+/* setting up grid layout */
+.north-bar {
+  grid-column: 2 / span 1;
+}
+
+.west-bar {
+  grid-row: 2 / span 1;
+}
+
+#chess-div {
+  grid-row: 2 / span 1;
+  grid-column: 2 / span 1;
+}
+
+.east-bar {
+  grid-row: 2 / span 1;
+  grid-column: 3 / span 1;
+}
+
+.square {
+  height: 12%;
+  width: 12.4%;
+  margin: 0;
+  padding: 0;
+
+  background-size: cover;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+/* icons are from: */
+/* https://www.onlinewebfonts.com/icon/packs_2638 */
+/* it might be more clean to inject background-image from JS */
+.black-king {
+  background-image: url(img/black-king.png);
+}
+
+.black-bishop {
+  background-image: url(img/black-bishop.png);
+}
+
+.black-rook {
+  background-image: url(img/black-rook.png);
+}
+
+.black-queen {
+  background-image: url(img/black-queen.png);
+}
+
+.black-knight {
+  background-image: url(img/black-knight.png);
+}
+
+.black-pawn {
+  background-image: url(img/black-pawn.png);
+}
+
+.white-king {
+  background-image: url(img/white-king.png);
+}
+
+.white-bishop {
+  background-image: url(img/white-bishop.png);
+}
+
+.white-rook {
+  background-image: url(img/white-rook.png);
+}
+
+.white-queen {
+  background-image: url(img/white-queen.png);
+}
+
+.white-knight {
+  background-image: url(img/white-knight.png);
+}
+
+.white-pawn {
+  background-image: url(img/white-pawn.png);
+}
