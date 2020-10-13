@@ -35,7 +35,7 @@
         <li>2</li>
         <li>1</li>
       </ul>
-      <div id="chess-div"></div>
+      <div id="chess-div" class=""></div>
       <ul class="rows-bar bar east-bar">
         <li>8</li>
         <li>7</li>
@@ -48,14 +48,18 @@
       </ul>
       <div class="notification-sink" id="notification-sink">
         <div class="notification-sink__upper">
-          <notifications-header>
             <h2>Notifications</h2>
-            <hr />
-          </notifications-header>
+            <hr /><hr>
           <div class="notifications-body" id="notifications-body"></div>
         </div>
         <div class="notification-sink__down">
-          <button id="clear-notifications-btn">Clear</button>
+          <div class="notification-sink__selected-piece">
+            <h4 id="selected-piece-label">Selected rook at A4</h4>
+          </div>
+          <div class="notification-sink__buttons">
+            <button id="clear-notifications-btn" class="btn">Clear</button>
+            <button id="reset-game-btn" class="btn">Reset</button>
+          </div>
         </div>
       </div>
       <ul class="cols-bar bar south-bar">

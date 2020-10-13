@@ -12,19 +12,18 @@
   &__upper {
     overflow: hidden;
   }
+  &__buttons{
+    display: flex;
+    justify-content: space-between;
+  }
 }
 
 #clear-notifications-btn {
-  font-size: 2.5vmin;
-  padding: 1vmin 3vmin 1vmin 3vmin;
-  margin-top: 4vmin;
   background-color: $color-primary;
-  color: white;
-  font-weight: bolder;
 }
 
-.notifications-body {
-  height: auto;
+#reset-game-btn{
+  background-color: $color-danger;
 }
 
 .warning {

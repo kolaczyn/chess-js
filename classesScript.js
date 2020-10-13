@@ -3,7 +3,6 @@ class Notifications {
   constructor() {
     this.notificationsCount = 1;
     this.notificationsBody = document.getElementById("notifications-body");
-    console.log(this.notificationsBody);
     this.clearNotificationsBtn = document.getElementById(
       "clear-notifications-btn"
     );
@@ -61,15 +60,6 @@ class Game {
     this.selectedSquare = null;
     this.selectedPiece = null;
   }
-  calculateValidMoves() {
-    let pieceName = this.getPieceName();
-    let piecePos = this.getPiecePos();
-    // if (pieceName === "white-pawn") {
-    //   sendNotification('selected white-pawn', 'success')
-    // } else {
-    //   sendNotification('Dont know about pieces other than pawns', 'warning')
-    // }
-  }
 
   initializePieces() {
     let whitePawns = document.getElementsByClassName("2");
@@ -99,6 +89,17 @@ class Game {
     this.addPiece("H8", "black-rook");
   }
 
+  rotateBoard() {
+    this.chessDiv.classList.toggle("rotate");
+    // cant do this for now, because the order of classes of squares is important
+    // will have to fix it before I will be able to rotate the board properly
+    // or better yet - come up with a better solution
+    // seriously, 
+    // [...this.chessDiv.children].forEach(div => {
+    //     div.classList.toggle('rotate')
+    // })
+  }
+
   initializeNextTurn() {
     this.isWhitesTurn = !this.isWhitesTurn;
     this.turnIndicator.changeTurnIndicators();
@@ -108,6 +109,7 @@ class Game {
       `It's now ${this.isWhitesTurn ? "white" : "black"}s' turn`,
       "info"
     );
+    this.rotateBoard()
   }
 
   addPiece(pos, piece) {
@@ -149,8 +151,8 @@ class Game {
     let out = (piece[0] === "b") === this.isWhitesTurn;
     return out;
   }
-  // will probably have to run this after each turn
 
+  // will probably have to run this after each turn
   checkForMate() {}
 
   // listener shouldn't do all the logic, it should call the logic only if nessesary.
@@ -189,7 +191,6 @@ class Game {
               "info"
             );
             this.selectedPiece = square;
-            this.calculateValidMoves();
           }
         }
 
@@ -198,7 +199,6 @@ class Game {
         else if (this.selectedPiece && empty) {
           this.notifications.sendNotification(`You moved to ${row}${col}`);
           this.selectedSquare = square;
-          this.calculateValidMoves();
           this.moviePiece(this.selectedPiece, this.selectedSquare);
           this.initializeNextTurn();
         }
@@ -223,27 +223,31 @@ class Game {
     });
   }
 
+  resetGame() {
+    this.initializePieces();
+  }
+
   moviePiece() {
-    let pieceName = this.getPieceName();
+    let pieceName = this.selectedPieceName;
     this.selectedPiece.classList.remove(pieceName);
     this.selectedSquare.classList.add(pieceName);
   }
 
-  getPiecePos() {
+  get selectedPiecePos() {
     let [pieceRow, pieceCol, ..._] = [...this.selectedPiece.classList];
     return `${pieceRow} ${pieceCol}`;
   }
 
-  getSquarePos() {
+  get selectedSquarePos() {
     let [pieceRow, pieceCol, ..._] = [...selectedSquare.classList];
     return `${pieceRow} ${pieceCol}`;
   }
 
-  getPieceName() {
+  get selectedPieceName() {
     return this.selectedPiece.classList.item(4);
   }
 }
 
 ("use strict");
 // let document = global
-const G = new Game();
+new Game();
