@@ -91,13 +91,6 @@ class Game {
 
   rotateBoard() {
     this.chessDiv.classList.toggle("rotate");
-    // cant do this for now, because the order of classes of squares is important
-    // will have to fix it before I will be able to rotate the board properly
-    // or better yet - come up with a better solution
-    // seriously, 
-    // [...this.chessDiv.children].forEach(div => {
-    //     div.classList.toggle('rotate')
-    // })
   }
 
   initializeNextTurn() {
@@ -109,7 +102,7 @@ class Game {
       `It's now ${this.isWhitesTurn ? "white" : "black"}s' turn`,
       "info"
     );
-    this.rotateBoard()
+    this.rotateBoard();
   }
 
   addPiece(pos, piece) {
@@ -151,9 +144,6 @@ class Game {
     let out = (piece[0] === "b") === this.isWhitesTurn;
     return out;
   }
-
-  // will probably have to run this after each turn
-  checkForMate() {}
 
   // listener shouldn't do all the logic, it should call the logic only if nessesary.
   // the way it works now, each time everything is calculated to every square
@@ -223,10 +213,6 @@ class Game {
     });
   }
 
-  resetGame() {
-    this.initializePieces();
-  }
-
   moviePiece() {
     let pieceName = this.selectedPieceName;
     this.selectedPiece.classList.remove(pieceName);
@@ -248,6 +234,153 @@ class Game {
   }
 }
 
-("use strict");
+class Piece {
+  constructor(color, col, row, boardRef) {
+    // this.color = color;
+    this.col = col;
+    // don't modify it, it's for anylising
+    // valid movesb
+    this.boardRef = boardRef;
+  }
+  // learn in depth how classes work in JS
+  checkIfValid() {
+    throw new Error("You didn' overwrite default checkIfValid method!");
+  }
+  // putPiece(squareDiv){
+  //   this.currentSq;
+  // }
+}
+
+// I will be probably more optimal (performance wise) to use prototypes instead of classes
+// check if that's true
+// also check what TS compiler does with classes
+class Pawn extends Piece {
+  constructor(color, col, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color == "white" ? 1 : 6;
+    super(color, col, row, boardRef);
+    this.hasMoved = false;
+    this.name = "pawn";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+
+class King extends Piece {
+  constructor(color, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color === "white" ? 0 : 7;
+    let col = 4;
+    super(color, col, boardRef);
+    this.hasMoved = false;
+    this.name = "king";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+class Queen extends Piece {
+  constructor(color, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color === "white" ? 0 : 7;
+    let col = 3;
+    super(color, col, row, boardRef);
+    this.name = "queen";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+class Rook extends Piece {
+  constructor(color, col, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color === "white" ? 0 : 7;
+    super(color, col, row, boardRef);
+    this.name = "rook";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+
+class Bishop extends Piece {
+  constructor(color, col, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color === "white" ? 0 : 7;
+    super(color, col, row, boardRef);
+    this.name = "bishop";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+
+class Knight extends Piece {
+  constructor(color, col, boardRef) {
+    // we probably can already deduce that from its position, but whatever
+    // I'll fix that later
+    let row = color === "white" ? 0 : 7;
+    super(color, row, col, boardRef);
+    this.name = "knight";
+  }
+  checkIfValid() {
+    return false;
+  }
+}
+
+class Board {
+  constructor() {
+    this.virtBoard = {};
+    this.DomBoard = document.getElementById("chess-div");
+    this.initializeSquares();
+    this.initializePieces();
+  }
+  initializePieces() {
+    ["black", "white"].forEach((color) => {
+      this.virtBoard[color] = {};
+      this.virtBoard[color].pawns = [];
+      for (let i = 0; i < 8; i++) {
+        this.virtBoard[color].pawns.push(new Pawn(color, i, this));
+      }
+      this.virtBoard[color].rook0 = new Rook(color, 0, this);
+      this.virtBoard[color].knight0 = new Knight(color, 1, this);
+      this.virtBoard[color].bishop0 = new Bishop(color, 2, this);
+      this.virtBoard[color].queen = new Queen(color, this);
+      this.virtBoard[color].king = new King(color, this);
+      this.virtBoard[color].bishop1 = new Bishop(color, 3, this);
+      this.virtBoard[color].knight1 = new Knight(color, 6, this);
+      this.virtBoard[color].rook1 = new Rook(color, 7, this);
+      // this
+    });
+  }
+  initializeSquares() {
+    for (let i = 0; i < 8; i++) for (let j = 0; j < 8; j++) {
+      // console.log('run')
+      this.DomBoard.appendChild(this.createSquare(i,j));
+    }
+  }
+
+  createSquare(row, col) {
+    const square = document.createElement("button");
+    square.classList.add("square");
+    if ((row + col) % 2) square.classList.add("square__black");
+    else square.classList.add("square__white");
+
+    square.classList.add("square");
+    square.id = `r${row}-c${col}`;
+
+    return square;
+  }
+}
+
+("use s/strict");
 // let document = global
-new Game();
+// const g = new/ Game();
+const b = new Board();
+// console.log(b);

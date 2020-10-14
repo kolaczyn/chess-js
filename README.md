@@ -18,5 +18,8 @@ I should restructured the code even more.
 ## Fix assets
 Change PNG to SVG. Don't use seperate assets for black and white pieces. Add proportions and fix the pieces' margins.
 
+## Webpack
+Stop using VS Code's extensions. Also, add eslint
+
 ## Finally add some logic
 Really, what are you waiting for?

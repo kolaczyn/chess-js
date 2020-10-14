@@ -8,26 +8,25 @@
   background-position: center;
   background-size: contain;
   background-repeat: no-repeat;
+
+  &__black {
+    background-color: $color-board-black;
+  }
+  &__white {
+    background-color: $color-board-white;
+  }
 }
 
 #chess-div {
   grid-row: 2 / span 1;
   grid-column: 2 / span 1;
-  padding: .6vmin;
-}
-
-.black {
-  background-color: $color-board-black;
-}
-
-.white {
-  background-color: $color-board-white;
+  padding: 0.6vmin;
 }
 
 // outdo the board's rotation
 // all done with these CSS lines
 // pretty smart, if I do say so myself c:
-#chess-div.rotate > button{
+#chess-div.rotate > button {
   transform: rotate(180deg);
 }
 
