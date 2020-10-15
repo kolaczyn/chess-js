@@ -32,13 +32,28 @@ class Board {
       }
   }
 
+  showValidMoves(sqId) {
+    let piece = this.virtualBoard[sqId];
+    if (piece) {
+      console.log(piece.getValidMoves(sqId, this.virtualBoard));
+    } else {
+      console.log("This square is empty");
+    }
+  }
+
+
+
   createSquare(col, row, classes) {
+    let id = `${col}-${row}`;
     const square = document.createElement("button");
+    square.addEventListener("click", () => {
+      this.showValidMoves(id);
+    });
     // square.id = classes;
-    classes.forEach(cl => {
+    classes.forEach((cl) => {
       square.classList.add(cl);
-    })
-    square.id = `${row}-${col}`;
+    });
+    square.id = `${col}-${row}`;
 
     return square;
   }

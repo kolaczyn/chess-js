@@ -9,15 +9,41 @@ class Piece {
     // }
   }
 
-  checkIfValid() {
-    throw new Error("You didn' overwrite default checkIfValid method!");
+  getValidMoves() {
+    throw new Error("Not implemented yet.");
   }
 }
 
 class Pawn extends Piece {
   constructor(color, hasMoved) {
-    super(color, hasMoved);
+    super(color, false);
     this.name = "pawn";
+  }
+
+  // this is very messy, will have to come up with something better
+  getValidMoves(sqId, virtualBoard) {
+    let out = [];
+    let [row, col] = sqIdToRowCol(sqId);
+    if (this.color === "white") {
+      if (!isSquareOccupied(row + 1, col, virtualBoard)) {
+        out.push(rowColToSqId(row + 1, col));
+      }
+      if (!this.hasMoved) {
+        if (!isSquareOccupied(row + 2, col, virtualBoard)) {
+          out.push(rowColToSqId(row + 2, col));
+        }
+      }
+    } else {
+      if (!isSquareOccupied(row - 1, col, virtualBoard)) {
+        out.push(rowColToSqId(row - 1, col));
+      }
+      if (!this.hasMoved) {
+        if (!isSquareOccupied(row - 2, col, virtualBoard)) {
+          out.push(rowColToSqId(row - 2, col));
+        }
+      }
+    }
+    return out;
   }
 }
 

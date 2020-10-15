@@ -1,5 +1,5 @@
 // this should be json, not js
-initialBoardState = {
+let initialBoardState = {
     "0-0": "white-rook",
     "0-1": "white-knight",
     "0-2": "white-bishop",
@@ -34,3 +34,40 @@ initialBoardState = {
     "6-6": "black-pawn",
     "6-7": "black-pawn",
   };
+
+// overwriting default state for testing
+initialBoardState = {
+  "0-0": "white-rook",
+  "2-0": "white-knight",
+  "0-2": "white-bishop",
+  "0-3": "white-queen",
+  "0-4": "white-king",
+  "0-5": "white-bishop",
+  "0-6": "white-knight",
+  "2-7": "white-rook",
+  "1-0": "white-pawn",
+  "1-1": "white-pawn",
+  "2-2": "white-pawn",
+  "1-3": "white-pawn",
+  "1-4": "white-pawn",
+  "2-5": "white-pawn",
+  "1-6": "white-pawn",
+  "3-7": "white-pawn",
+
+  "7-0": "black-rook",
+  "7-1": "black-knight",
+  "7-2": "black-bishop",
+  "7-3": "black-queen",
+  "7-4": "black-king",
+  "7-5": "black-bishop",
+  "3-6": "black-knight",
+  "7-7": "black-rook",
+  "6-0": "black-pawn",
+  "6-1": "black-pawn",
+  "6-2": "black-pawn",
+  "6-3": "black-pawn",
+  "6-4": "black-pawn",
+  "6-5": "black-pawn",
+  "6-6": "black-pawn",
+  "6-7": "black-pawn",
+};
