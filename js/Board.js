@@ -46,13 +46,20 @@ class Board {
         moveSq.classList.remove('square--valid-move')
       })
       let moves = piece.getValidMoves(sqId, this.virtualBoard);
+      console.log(moves)
       moves.forEach(m =>{
         let moveSq = document.getElementById(m)
         moveSq.classList.add('square--valid-move')
       })
       this.validMoves = moves;
     } else {
-      console.log("This square is empty");
+      // console.log("This square is empty");
+      this.validMoves.forEach(m=>{
+        let moveSq = document.getElementById(m)
+        moveSq.classList.remove('square--valid-move')
+      })
+      this.validMoves=[]
+      
     }
   }
 

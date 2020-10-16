@@ -14,7 +14,8 @@ class Piece {
   }
   // definitely will have to refactor this
   // helper function
-  checkMoves(row, col, virtualBoard, calculateSquare) {
+  // it stops when it encourters an obstacle
+  checkMovesBreak(row, col, virtualBoard, calculateSquare) {
     let validMoves = [];
     for (let i = 1; i < 8; i++) {
       let checkedSquare = calculateSquare(row, col, i);
@@ -30,24 +31,37 @@ class Piece {
     }
     return validMoves;
   }
+  // I should probably rewrite this so it accepts array of squares to check
+  // and then checks them, returns array of valid squares
+  checkMoves(row, col, virtualBoard, calculateSquare) {
+    let validMoves = [];
+    let checkedSquare = calculateSquare(row, col);
+    if (isInRange(...checkedSquare)) {
+      let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+      if (potentialPiece) {
+        if (potentialPiece !== this.color) {
+          validMoves.push(rowColToSqId(...checkedSquare));
+        }
+      } else validMoves.push(rowColToSqId(...checkedSquare));
+    }
+    return validMoves;
+  }
 
   getValidHorizontalMoves(sqId, virtualBoard) {
     let [row, col] = sqIdToRowCol(sqId);
-    let top = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let top = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r + i,
       c,
     ]);
-    let right = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let right = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r,
       c + i,
     ]);
-    let bottom = this.checkMoves(
-      row,
-      col,
-      virtualBoard,
-      (r, c, i) => [r - i, c]
-    );
-    let left = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let bottom = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
+      r - i,
+      c,
+    ]);
+    let left = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r,
       c - i,
     ]);
@@ -57,19 +71,19 @@ class Piece {
 
   getValidDiagonalMoves(sqId, virtualBoard) {
     let [row, col] = sqIdToRowCol(sqId);
-    let tl = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let tl = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r + i,
       c - i,
     ]);
-    let tr = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let tr = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r + i,
       c + i,
     ]);
-    let br = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let br = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r - i,
       c + i,
     ]);
-    let bl = this.checkMoves(row, col, virtualBoard, (r, c, i) => [
+    let bl = this.checkMovesBreak(row, col, virtualBoard, (r, c, i) => [
       r - i,
       c - i,
     ]);
@@ -102,7 +116,7 @@ class Pawn extends Piece {
     // look into that later
     moveSquaresToCheck.push(rowColToSqId(row + direction, col));
     if (!this.hasMoved) {
-    moveSquaresToCheck.push(rowColToSqId(row + direction*2, col));
+      moveSquaresToCheck.push(rowColToSqId(row + direction * 2, col));
     }
     // C style loop, hell yeah
     let i = 0;
@@ -135,7 +149,7 @@ class King extends Piece {
           let potentialPiece = isSquareOccupied(row + i, col + j, virtualBoard);
           if (potentialPiece) {
             if (potentialPiece !== this.color)
-              validMoves.push(rowColToSqId(row + i, col + j ));
+              validMoves.push(rowColToSqId(row + i, col + j));
           } else {
             validMoves.push(rowColToSqId(row + i, col + j));
           }
@@ -181,7 +195,40 @@ class Knight extends Piece {
     this.name = "knight";
   }
 
-  getValidMoves(sqId, virtualBoard) {}
+  getValidMoves(sqId, virtualBoard) {
+    let moves = [];
+    let [row, col] = sqIdToRowCol(sqId);
+    // I don't like it; find another way
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r - 2, c - 1])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r - 2, c + 1])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r + 2, c - 1])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r + 2, c + 1])
+    );
+
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r - 1, c - 2])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r - 1, c + 2])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r + 1, c - 2])
+    );
+    moves.push(
+      ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r + 1, c + 2])
+    );
+
+    console.log(moves);
+
+    return [...moves];
+  }
 }
 
 // this is just dumb
