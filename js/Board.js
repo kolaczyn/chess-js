@@ -2,6 +2,7 @@ class Board {
   constructor(initialBoardState) {
     this.DomBoard = document.getElementById("chess-div");
     this.initializeVirtualBoard(initialBoardState);
+    this.validMoves = []
     this.initializeSquaresAndPieces();
     // console.log(this.DomBoard)
   }
@@ -13,7 +14,6 @@ class Board {
       const pieceConstructor = stringToClass(pieceName);
       this.virtualBoard[key] = new pieceConstructor(color, false);
     });
-    console.log(this.virtualBoard);
   }
   initializeSquaresAndPieces() {
     for (let col = 7; col >= 0; col--)
@@ -40,7 +40,17 @@ class Board {
   showValidMoves(sqId) {
     let piece = this.virtualBoard[sqId];
     if (piece) {
-      console.log(piece.getValidMoves(sqId, this.virtualBoard));
+      // removing class from the old moves
+      this.validMoves.forEach(m=>{
+        let moveSq = document.getElementById(m)
+        moveSq.classList.remove('square--valid-move')
+      })
+      let moves = piece.getValidMoves(sqId, this.virtualBoard);
+      moves.forEach(m =>{
+        let moveSq = document.getElementById(m)
+        moveSq.classList.add('square--valid-move')
+      })
+      this.validMoves = moves;
     } else {
       console.log("This square is empty");
     }

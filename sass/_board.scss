@@ -10,6 +10,13 @@
     background-color: $color-board-white;
   }
 }
+// figure out a better way of selecting the squares
+.square--valid-move.square__black {
+  border: 1vmin solid rgb(88, 196, 17);
+}
+.square--valid-move.square__white {
+  border: 1vmin solid rgb(88, 196, 17);
+}
 
 #chess-div {
   grid-row: 2 / span 1;
@@ -30,7 +37,7 @@
 /* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
 #chess-div {
   background-color: $color-board-white;
-  border-radius: .6vmin;
+  border-radius: 0.6vmin;
   overflow: hidden;
 
   cursor: pointer;
