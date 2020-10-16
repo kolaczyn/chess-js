@@ -10,7 +10,7 @@ function rowColToSqId(row, col) {
 function isSquareOccupied(row, col, virtualBoard) {
     let piece = virtualBoard[rowColToSqId(row, col)];
     if (piece){
-        return piece.name;
+        return piece.color;
     }
     return "";
 }

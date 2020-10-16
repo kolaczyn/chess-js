@@ -12,6 +12,12 @@ class Piece {
   getValidMoves() {
     throw new Error("Not implemented yet.");
   }
+  getValidHorizontalMoves(sqId, virtualBoard) {
+    return ["not hori implemented yet"];
+  }
+  getValidDiagonalMoves(sqId, virtualBoard) {
+    return ["not diag implemented yet"];
+  }
 }
 
 class Pawn extends Piece {
@@ -21,29 +27,34 @@ class Pawn extends Piece {
   }
 
   // this is very messy, will have to come up with something better
+  // also, implement attacking and en passant
   getValidMoves(sqId, virtualBoard) {
     let out = [];
     let [row, col] = sqIdToRowCol(sqId);
+    let moveSquaresToCheck = [];
+    // attacks need to be checked differently, because pawn is weird
+    let attackSquaresToCheck = [];
+    let direction;
     if (this.color === "white") {
-      if (!isSquareOccupied(row + 1, col, virtualBoard)) {
-        out.push(rowColToSqId(row + 1, col));
-      }
-      if (!this.hasMoved) {
-        if (!isSquareOccupied(row + 2, col, virtualBoard)) {
-          out.push(rowColToSqId(row + 2, col));
-        }
-      }
+      direction = 1;
     } else {
-      if (!isSquareOccupied(row - 1, col, virtualBoard)) {
-        out.push(rowColToSqId(row - 1, col));
-      }
-      if (!this.hasMoved) {
-        if (!isSquareOccupied(row - 2, col, virtualBoard)) {
-          out.push(rowColToSqId(row - 2, col));
-        }
+      direction = -1;
+    }
+    // if a pawn reaches the end, the next move may let him go beyond the board
+    // look into that later
+    moveSquaresToCheck.push({ row: row + direction, col });
+    if (!this.hasMoved) {
+      moveSquaresToCheck.push({ row: row + direction * 2, col });
+    }
+    // C style loop, hell yeah
+    let i = 0;
+    for (; i < moveSquaresToCheck.length; i++) {
+      let { row, col } = moveSquaresToCheck[i];
+      if (isSquareOccupied(row, col, virtualBoard)) {
+        break;
       }
     }
-    return out;
+    return moveSquaresToCheck.slice(0, i);
   }
 }
 
@@ -52,11 +63,41 @@ class King extends Piece {
     super(color, hasMoved);
     this.name = "king";
   }
+  // for now there is no checkmate and castling as of now
+  getValidMoves(sqId, virtualBoard) {
+    let [row, col] = sqIdToRowCol(sqId);
+    let validMoves = [];
+    let range = [-1, 0, 1];
+    // there's probably a better way of doing it, but it's more JS-y than a C-style for loop
+    // try to improve this algorithm
+    range.forEach((i) => {
+      range.forEach((j) => {
+        // console.log(i,j)
+        // this way we don't check (0, 0) && a square is in range
+        if ((i || j) && isInRange(row + i, col + j)) {
+          let potentialPiece = isSquareOccupied(row + i, col + j, virtualBoard);
+          if (potentialPiece) {
+            if (potentialPiece !== this.color) validMoves.push([row + i, col + j]);
+          } else {
+            validMoves.push([row + i, col + j]);
+          }
+        }
+        // if (isSquareOccupied{}
+      });
+    });
+    return validMoves;
+  }
 }
 class Queen extends Piece {
   constructor(color, hasMoved) {
     super(color, hasMoved);
     this.name = "queen";
+  }
+  getValidMoves(sqId, virtualBoard) {
+    return [
+      ...this.getValidDiagonalMoves(sqId, virtualBoard),
+      ...this.getValidHorizontalMoves(sqId, virtualBoard),
+    ];
   }
 }
 class Rook extends Piece {
@@ -64,6 +105,8 @@ class Rook extends Piece {
     super(color, hasMoved);
     this.name = "rook";
   }
+
+  getValidMoves = this.getValidHorizontalMoves;
 }
 
 class Bishop extends Piece {
@@ -71,6 +114,7 @@ class Bishop extends Piece {
     super(color, hasMoved);
     this.name = "bishop";
   }
+  getValidMoves = this.getValidDiagonalMoves;
 }
 
 class Knight extends Piece {
