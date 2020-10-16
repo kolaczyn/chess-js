@@ -12,14 +12,5 @@ Wire the reset button. Will still not work, because function which intializes pi
 ## Selected piece indicator
 Wire it up.
 
-## Classes don't make sense
-I should restructured the code even more.
-
-## Fix assets
-Change PNG to SVG. Don't use seperate assets for black and white pieces. Add proportions and fix the pieces' margins.
-
 ## Webpack
 Stop using VS Code's extensions. Also, add eslint
-
-## Finally add some logic
-Really, what are you waiting for?

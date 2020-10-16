@@ -3,7 +3,7 @@ body {
 
   height: 100vh;
   width: 100ww;
-  background-color: $color-background;
+  background-color: $color-black-dark;
 
   color: $color-text;
 
@@ -15,7 +15,7 @@ body {
 .content {
   display: grid;
   /* make media queries here, condition: if (width<height) ... else .... */
-  grid-template-columns: 5vmin 75vmin 5vmin 25vmin;
-  grid-template-rows: 5vmin 75vmin 5vmin;
+  grid-template-columns: 5vmin 64vmin 5vmin 20vmin;
+  grid-template-rows: 5vmin 64vmin 5vmin;
   gap: 1vmin;
 }

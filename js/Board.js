@@ -24,11 +24,16 @@ class Board {
         else classes.push("square__black");
         let potentialPiece = this.virtualBoard[
           `${col.toString()}-${row.toString()}`
-        ];
+        ]
+
+        let colorPiece = ''; // jjust a workaround, It's probably not the cleanset solution
         if (potentialPiece !== undefined) {
-          classes.push(`${potentialPiece.color}-${potentialPiece.name}`);
+          colorPiece = `${potentialPiece.color}-${potentialPiece.name}`;
+          classes.push(colorPiece);
         }
-        this.DomBoard.appendChild(this.createSquare(col, row, classes));
+        this.DomBoard.appendChild(
+          this.createSquare(col, row, classes,colorPiece)
+        );
       }
   }
 
@@ -41,9 +46,7 @@ class Board {
     }
   }
 
-
-
-  createSquare(col, row, classes) {
+  createSquare(col, row, classes, colorPiece) {
     let id = `${col}-${row}`;
     const square = document.createElement("button");
     square.addEventListener("click", () => {
@@ -53,6 +56,11 @@ class Board {
     classes.forEach((cl) => {
       square.classList.add(cl);
     });
+    if (colorPiece) {
+      square.style.backgroundImage = `url(img/${colorPiece}.svg)`;
+    }
+    // background-image: url(img/black-king.png);
+
     square.id = `${col}-${row}`;
 
     return square;

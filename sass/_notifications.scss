@@ -12,6 +12,13 @@
   &__upper {
     overflow: hidden;
   }
+  &__divider{
+    border-radius: 2vmin;
+    margin-top: .75vmin;
+    height: .4vmin;
+    background-color: rgba($color-black-dark, .4);    
+    width: 100%;
+  }
   &__buttons{
     margin-top: 1vmin;
     display: flex;
