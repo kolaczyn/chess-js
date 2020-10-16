@@ -35,8 +35,7 @@ let initialBoardState = {
     "6-7": "black-pawn",
   };
 
-// overwriting default state for testing
-initialBoardState = {
+let testingBoardState = {
   "0-0": "white-rook",
   "2-0": "white-knight",
   "0-2": "white-bishop",
@@ -54,7 +53,7 @@ initialBoardState = {
   "1-6": "white-pawn",
   "3-7": "white-pawn",
 
-  "7-0": "black-rook",
+  "4-4": "black-rook",
   "7-1": "black-knight",
   "7-2": "black-bishop",
   "7-3": "black-queen",
@@ -71,3 +70,6 @@ initialBoardState = {
   "6-6": "black-pawn",
   "6-7": "black-pawn",
 };
+
+// overwriting default state for testing
+initialBoardState = testingBoardState

@@ -14,3 +14,6 @@ Wire it up.
 
 ## Webpack
 Stop using VS Code's extensions. Also, add eslint
+
+## Row Col should be object
+I should rewrite the code, so sqIdToRowCol, returns an object e.g. {row: 0, col:0}, instead of [0, 1]

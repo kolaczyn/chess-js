@@ -13,10 +13,70 @@ class Piece {
     throw new Error("Not implemented yet.");
   }
   getValidHorizontalMoves(sqId, virtualBoard) {
-    return ["not hori implemented yet"];
+    let [row, col] = sqIdToRowCol(sqId);
+    // if ((i || j) && isInRange(row + i, col + j)) {
+
+    let validMoves = [];
+    // I have split it into a functions
+    // I did it this way for now, to see if that works
+    // I should create general function which takes an array
+    // of potential moves, check them one by one and break if there's an obstacle.
+    // I would use that function here
+    for (let i = 1; i < 8; i++) {
+      let checkedSquare = [row, col - i];
+      if (isInRange(...checkedSquare)) {
+        let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+        if (potentialPiece) {
+          if (potentialPiece !== this.color) {
+            validMoves.push([...checkedSquare]);
+          }
+          break;
+        } else validMoves.push([...checkedSquare]);
+      }
+    }
+    for (let i = 1; i < 8; i++) {
+      let checkedSquare = [row, col + i];
+      if (isInRange(...checkedSquare)) {
+        let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+        if (potentialPiece) {
+          if (potentialPiece !== this.color) {
+            validMoves.push([...checkedSquare]);
+          }
+          break;
+        } else validMoves.push([...checkedSquare]);
+      }
+    }
+    for (let i = 1; i < 8; i++) {
+      let checkedSquare = [row-i, col];
+      if (isInRange(...checkedSquare)) {
+        let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+        if (potentialPiece) {
+          if (potentialPiece !== this.color) {
+            validMoves.push([...checkedSquare]);
+          }
+          break;
+        } else validMoves.push([...checkedSquare]);
+      }
+    }
+    for (let i = 1; i < 8; i++) {
+      let checkedSquare = [row+i, col];
+      if (isInRange(...checkedSquare)) {
+        let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+        if (potentialPiece) {
+          if (potentialPiece !== this.color) {
+            validMoves.push([...checkedSquare]);
+          }
+          break;
+        } else validMoves.push([...checkedSquare]);
+      }
+    }
+
+    return validMoves;
   }
+
+
   getValidDiagonalMoves(sqId, virtualBoard) {
-    return ["not diag implemented yet"];
+    return [];
   }
 }
 
@@ -77,9 +137,10 @@ class King extends Piece {
         if ((i || j) && isInRange(row + i, col + j)) {
           let potentialPiece = isSquareOccupied(row + i, col + j, virtualBoard);
           if (potentialPiece) {
-            if (potentialPiece !== this.color) validMoves.push([row + i, col + j]);
+            if (potentialPiece !== this.color)
+              validMoves.push({ row: row + i, col: col + j });
           } else {
-            validMoves.push([row + i, col + j]);
+            validMoves.push({ row: row + i, col: col + j });
           }
         }
         // if (isSquareOccupied{}
