@@ -33,6 +33,8 @@
 /* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
 #chess-div {
   background-color: $color-board-white;
+  border-radius: .6vmin;
+  overflow: hidden;
 
   cursor: pointer;
 

@@ -7,10 +7,11 @@
 }
 
 .turn-indicator {
-  background-color: white;
-  color: #333;
+  background-color: $color-black;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 4vmin;
+  // justify-content: center;
+  text-align: left;
+  padding: 1.2vmin;
+  border-radius: .6vmin;
 }

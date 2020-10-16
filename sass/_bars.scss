@@ -21,8 +21,10 @@
 }
 
 .bar {
-  background-color: #eee;
-  color: $color-black;
+  border-radius: .6vmin;
+  color: $color-white;
+  background-color: $color-black;
+  color: $color-white;
   display: flex;
   font-weight: 500;
   justify-content: space-around;
