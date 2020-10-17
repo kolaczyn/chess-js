@@ -2,6 +2,9 @@
   "name": "chess",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts":{
+    "build": "webpack --watch"
+  },
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
