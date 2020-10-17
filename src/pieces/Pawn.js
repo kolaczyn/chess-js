@@ -10,7 +10,6 @@ class Pawn extends Piece {
   // also, implement attacking and en passant
   getValidMoves(sqId, virtualBoard) {
     let out = [];
-    let [row, col] = Piece.sqIdToRowCol(sqId);
     let moveSquaresToCheck = [];
     // attacks need to be checked differently, because pawn is weird
     let attackSquaresToCheck = [];
@@ -22,9 +21,9 @@ class Pawn extends Piece {
     }
     // if a pawn reaches the end, the next move may let him go beyond the board
     // look into that later
-    moveSquaresToCheck.push(Piece.rowColToSqId(row + direction, col));
+    moveSquaresToCheck.push(Piece.rowColToSqId(this.row + direction, this.col));
     if (!this.hasMoved) {
-      moveSquaresToCheck.push(Piece.rowColToSqId(row + direction * 2, col));
+      moveSquaresToCheck.push(Piece.rowColToSqId(this.row + direction * 2, this.col));
     }
     // C style loop, hell yeah
     let i = 0;

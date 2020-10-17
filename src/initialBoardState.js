@@ -106,4 +106,5 @@ let testingBoardState2 = {
   "5-7": "black-pawn",
 };
 
-module.exports = initialBoardState;
+// module.exports = initialBoardState
+module.exports = testingBoardState1

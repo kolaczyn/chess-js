@@ -127,6 +127,8 @@ class Board {
 
   movePieceVirtual(sqId) {
     let buff = this.virtualBoard[this.selectedPiece];
+    this.virtualBoard[this.selectedPiece].id =  sqId// change sqId on the object
+    this.virtualBoard[this.selectedPiece].hasMoved = true;
     delete this.virtualBoard[this.selectedPiece];
     this.virtualBoard[sqId] = buff;
   }
