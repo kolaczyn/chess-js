@@ -1,5 +1,10 @@
-const { Piece, Rook, Bishop, Knight, Queen, King, Pawn } = require("./Piece");
-
+const { Piece } = require("./pieces/Piece");
+const Bishop = require("./pieces/Bishop");
+const King = require("./pieces/King");
+const Rook = require("./pieces/Rook");
+const Queen = require("./pieces/Queen");
+const Pawn = require("./pieces/Pawn");
+const Knight = require('./pieces/Knight')
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
@@ -18,10 +23,35 @@ class Board {
     this.turnIndicator = document.getElementById("whites-turn__text");
   }
 
+  static stringToClass(s) {
+    switch (s) {
+      case "rook":
+        return Rook;
+        break;
+      case "knight":
+        return Knight;
+        break;
+      case "bishop":
+        return Bishop;
+        break;
+      case "queen":
+        return Queen;
+        break;
+      case "king":
+        return King;
+        break;
+      case "pawn":
+        return Pawn;
+        break;
+      default:
+        throw new Error("Invalid piece class name.");
+    }
+  }
+
   initializeVirtualBoard(initialBoardState) {
     Object.entries(initialBoardState).forEach(([key, value]) => {
       let [color, pieceName] = value.split("-");
-      const pieceConstructor = Piece.stringToClass(pieceName);
+      const pieceConstructor = Board.stringToClass(pieceName);
       this.virtualBoard[key] = new pieceConstructor(color, false, key);
     });
   }
@@ -118,14 +148,12 @@ class Board {
         moveSq.classList.remove("square--valid-move");
       });
       let moves = piece.getValidMoves(sqId, this.virtualBoard);
-      // console.log(moves);
       moves.forEach((m) => {
         let moveSq = document.getElementById(m);
         moveSq.classList.add("square--valid-move");
       });
       this.validMoves = moves;
     } else {
-      // console.log("This square is empty");
       this.validMoves.forEach((m) => {
         let moveSq = document.getElementById(m);
         moveSq.classList.remove("square--valid-move");
@@ -150,5 +178,4 @@ class Board {
   }
 }
 
-
-module.exports =Board
+module.exports = Board;
