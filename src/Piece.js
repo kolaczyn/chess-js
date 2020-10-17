@@ -1,22 +1,63 @@
 const {
-    sqIdToRowCol,
-    rowColToSqId,
-    isSquareOccupied,
-    isInRange,
-  } = require('./utils')
-  
-
+  sqIdToRowCol,
+} = require("./utils");
 
 class Piece {
-  constructor(color, hasMoved) {
+  constructor(color, hasMoved,id) {
     this.color = color;
     this.hasMoved = hasMoved;
+    this.id = id
+    console.log(this.id)
     // we don't care if bishop or knight has moved
     // I might do something like this in the future:
     // if (hasMoved !== undefined){
     //   this.hasMoved=this.hasMoved
     // }
   }
+
+  static  isInRange(row, col) {
+    return 0 <= row && row <= 7 && 0 <= col && col <= 7;
+  }
+ 
+  
+  static isSquareOccupied(row, col, virtualBoard) {
+    let piece = virtualBoard[`${row}-${col}`];
+    if (piece) {
+      return piece.color;
+    }
+    return "";
+  }
+  
+  static rowColToSqId(row, col) {
+    return `${row}-${col}`;
+  }
+
+  static stringToClass(s) {
+    switch (s) {
+      case "rook":
+        return Rook;
+        break;
+      case "knight":
+        return Knight;
+        break;
+      case "bishop":
+        return Bishop;
+        break;
+      case "queen":
+        return Queen;
+        break;
+      case "king":
+        return King;
+        break;
+      case "pawn":
+        return Pawn;
+        break;
+      default:
+        throw new Error("Invalid piece class name.");
+    }
+    
+  }
+  
 
   // definitely will have to refactor this
   // helper function
@@ -25,14 +66,14 @@ class Piece {
     let validMoves = [];
     for (let i = 1; i < 8; i++) {
       let checkedSquare = calculateSquare(row, col, i);
-      if (isInRange(...checkedSquare)) {
-        let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+      if (Piece.isInRange(...checkedSquare)) {
+        let potentialPiece = Piece.isSquareOccupied(...checkedSquare, virtualBoard);
         if (potentialPiece) {
           if (potentialPiece !== this.color) {
-            validMoves.push(rowColToSqId(...checkedSquare));
+            validMoves.push(Piece.rowColToSqId(...checkedSquare));
           }
           break;
-        } else validMoves.push(rowColToSqId(...checkedSquare));
+        } else validMoves.push(Piece.rowColToSqId(...checkedSquare));
       }
     }
     return validMoves;
@@ -42,13 +83,13 @@ class Piece {
   checkMoves(row, col, virtualBoard, calculateSquare) {
     let validMoves = [];
     let checkedSquare = calculateSquare(row, col);
-    if (isInRange(...checkedSquare)) {
-      let potentialPiece = isSquareOccupied(...checkedSquare, virtualBoard);
+    if (Piece.isInRange(...checkedSquare)) {
+      let potentialPiece = Piece.isSquareOccupied(...checkedSquare, virtualBoard);
       if (potentialPiece) {
         if (potentialPiece !== this.color) {
-          validMoves.push(rowColToSqId(...checkedSquare));
+          validMoves.push(Piece.rowColToSqId(...checkedSquare));
         }
-      } else validMoves.push(rowColToSqId(...checkedSquare));
+      } else validMoves.push(Piece.rowColToSqId(...checkedSquare));
     }
     return validMoves;
   }
@@ -98,15 +139,15 @@ class Piece {
   }
 }
 class Bishop extends Piece {
-  constructor(color, hasMoved) {
-    super(color, hasMoved);
+  constructor(color, hasMoved, id) {
+    super(color, hasMoved, id);
     this.name = "bishop";
     this.getValidMoves = this.getValidDiagonalMoves;
   }
 }
 class King extends Piece {
-  constructor(color, hasMoved) {
-    super(color, hasMoved);
+  constructor(color, hasMoved, id) {
+    super(color, hasMoved,id);
     this.name = "king";
   }
   // for now there is no checkmate and castling as of now
@@ -119,24 +160,23 @@ class King extends Piece {
     range.forEach((i) => {
       range.forEach((j) => {
         // this way we don't check (0, 0) && a square is in range
-        if ((i || j) && isInRange(row + i, col + j)) {
-          let potentialPiece = isSquareOccupied(row + i, col + j, virtualBoard);
+        if ((i || j) && Piece.isInRange(row + i, col + j)) {
+          let potentialPiece = Piece.isSquareOccupied(row + i, col + j, virtualBoard);
           if (potentialPiece) {
             if (potentialPiece !== this.color)
-              validMoves.push(rowColToSqId(row + i, col + j));
+              validMoves.push(Piece.rowColToSqId(row + i, col + j));
           } else {
-            validMoves.push(rowColToSqId(row + i, col + j));
+            validMoves.push(Piece.rowColToSqId(row + i, col + j));
           }
         }
-        // if (isSquareOccupied{}
       });
     });
     return validMoves;
   }
 }
 class Knight extends Piece {
-  constructor(color, hasMoved) {
-    super(color, hasMoved);
+  constructor(color, hasMoved, id) {
+    super(color, hasMoved, id);
     this.name = "knight";
   }
 
@@ -176,14 +216,15 @@ class Knight extends Piece {
   }
 }
 class Pawn extends Piece {
-  constructor(color, hasMoved) {
-    super(color, false);
+  constructor(color, hasMoved, id) {
+    super(color, false, id);
     this.name = "pawn";
   }
 
   // this is very messy, will have to come up with something better
   // also, implement attacking and en passant
   getValidMoves(sqId, virtualBoard) {
+    console.log(Piece.rowColToSqId)
     let out = [];
     let [row, col] = sqIdToRowCol(sqId);
     let moveSquaresToCheck = [];
@@ -197,15 +238,15 @@ class Pawn extends Piece {
     }
     // if a pawn reaches the end, the next move may let him go beyond the board
     // look into that later
-    moveSquaresToCheck.push(rowColToSqId(row + direction, col));
+    moveSquaresToCheck.push(Piece.rowColToSqId(row + direction, col));
     if (!this.hasMoved) {
-      moveSquaresToCheck.push(rowColToSqId(row + direction * 2, col));
+      moveSquaresToCheck.push(Piece.rowColToSqId(row + direction * 2, col));
     }
     // C style loop, hell yeah
     let i = 0;
     for (; i < moveSquaresToCheck.length; i++) {
       let { row, col } = moveSquaresToCheck[i];
-      if (isSquareOccupied(row, col, virtualBoard)) {
+      if (Piece.isSquareOccupied(row, col, virtualBoard)) {
         break;
       }
     }
@@ -213,8 +254,8 @@ class Pawn extends Piece {
   }
 }
 class Queen extends Piece {
-  constructor(color, hasMoved) {
-    super(color, hasMoved);
+  constructor(color, hasMoved, id) {
+    super(color, hasMoved, id);
     this.name = "queen";
   }
   getValidMoves(sqId, virtualBoard) {
@@ -225,19 +266,19 @@ class Queen extends Piece {
   }
 }
 class Rook extends Piece {
-  constructor(color, hasMoved) {
-    super(color, hasMoved);
+  constructor(color, hasMoved, id) {
+    super(color, hasMoved, id);
     this.name = "rook";
     this.getValidMoves = this.getValidHorizontalMoves;
   }
 }
 
 module.exports = {
-    Piece, 
-    Rook,
-    Bishop,
-    Knight,
-    Queen,
-    King,
-    Pawn
-}
+  Piece,
+  Rook,
+  Bishop,
+  Knight,
+  Queen,
+  King,
+  Pawn,
+};

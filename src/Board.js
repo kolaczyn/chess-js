@@ -1,35 +1,5 @@
-const {
-  sqIdToRowCol,
-  rowColToSqId,
-  isSquareOccupied,
-  isInRange,
-} = require("./utils");
 const { Piece, Rook, Bishop, Knight, Queen, King, Pawn } = require("./Piece");
 
-function stringToClass(s) {
-  switch (s) {
-    case "rook":
-      return Rook;
-      break;
-    case "knight":
-      return Knight;
-      break;
-    case "bishop":
-      return Bishop;
-      break;
-    case "queen":
-      return Queen;
-      break;
-    case "king":
-      return King;
-      break;
-    case "pawn":
-      return Pawn;
-      break;
-    default:
-      throw new Error("Invalid piece class name.");
-  }
-}
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
@@ -51,8 +21,8 @@ class Board {
   initializeVirtualBoard(initialBoardState) {
     Object.entries(initialBoardState).forEach(([key, value]) => {
       let [color, pieceName] = value.split("-");
-      const pieceConstructor = stringToClass(pieceName);
-      this.virtualBoard[key] = new pieceConstructor(color, false);
+      const pieceConstructor = Piece.stringToClass(pieceName);
+      this.virtualBoard[key] = new pieceConstructor(color, false, key);
     });
   }
 
