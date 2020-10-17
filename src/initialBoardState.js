@@ -107,4 +107,4 @@ let testingBoardState2 = {
 };
 
 // module.exports = initialBoardState
-module.exports = testingBoardState1
+module.exports = initialBoardState

@@ -19,21 +19,33 @@ class Pawn extends Piece {
     } else {
       direction = -1;
     }
-    // if a pawn reaches the end, the next move may let him go beyond the board
-    // look into that later
-    moveSquaresToCheck.push(Piece.rowColToSqId(this.row + direction, this.col));
-    if (!this.hasMoved) {
-      moveSquaresToCheck.push(Piece.rowColToSqId(this.row + direction * 2, this.col));
+
+    // this will have to do for now
+    let move1 = `${this.row + direction}-${this.col}`;
+    let move2 = `${this.row + direction * 2}-${this.col}`;
+
+    let move1Target = virtualBoard[move1];
+    let move2Target = virtualBoard[move2];
+
+    let attack1 = `${this.row + direction}-${this.col - 1}`;
+    let attack2 = `${this.row + direction}-${this.col + 1}`;
+
+    let attack1Target = virtualBoard[attack1];
+    let attack2Target = virtualBoard[attack2];
+
+    if (attack1Target && attack1Target.color != this.color) {
+      out.push(attack1);
     }
-    // C style loop, hell yeah
-    let i = 0;
-    for (; i < moveSquaresToCheck.length; i++) {
-      let { row, col } = moveSquaresToCheck[i];
-      if (Piece.isSquareOccupied(row, col, virtualBoard)) {
-        break;
+    if (attack2Target && attack2Target.color != this.color) {
+      out.push(attack2);
+    }
+    if (!move1Target) {
+      out.push(move1);
+      if (!move2Target && !this.hasMoved) {
+        out.push(move2);
       }
     }
-    return moveSquaresToCheck.slice(0, i);
+    return out;
   }
 }
 
