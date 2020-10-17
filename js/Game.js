@@ -107,7 +107,7 @@ class Game {
         let classNames = square.className.split(" ");
         let [row, col, ..._] = classNames;
         let empty = this.checkIfIsEmpty(square);
-        console.log("click");
+        // console.log("click");
 
         // if you select an empty square, and no piece prior
         if (!this.selectedPiece && empty) {

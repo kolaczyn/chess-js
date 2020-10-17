@@ -107,4 +107,4 @@ let testingBoardState2 = {
 };
 
 // overwriting default state for testing
-initialBoardState = testingBoardState1
+// initialBoardState = testingBoardState1

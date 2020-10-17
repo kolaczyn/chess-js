@@ -34,7 +34,7 @@ class Knight extends Piece {
         ...this.checkMoves(row, col, virtualBoard, (r, c, i) => [r + 1, c + 2])
       );
   
-      console.log(moves);
+      // console.log(moves);
   
       return [...moves];
     }
