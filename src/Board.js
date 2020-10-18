@@ -11,7 +11,6 @@ const Knight = require("./pieces/Knight");
 class Board {
   constructor(initialBoardState) {
     this.whoseTurn = "white";
-    this.isCheck = false;
     this.selectedPiece = null;
     this.validMoves = [];
 
@@ -25,6 +24,7 @@ class Board {
     this.blacksTurnIndicator = document.getElementById("blacks-turn");
 
     this.notificationSink = document.getElementById("notification-sink__body");
+    this.mateIndicator = document.getElementById("notification-sink__mate");
   }
 
   static stringToClass(s) {
@@ -124,20 +124,40 @@ class Board {
     }
   }
 
-  checkForCheckmate() {
+  checkForMate() {
     // find the king, figure out where the enemy can move and see if the king is in danger
-    let kingPos
-    let dangerougSquares = []
+    this.mateIndicator.innerHTML = "";
+    let kingPos;
+    let dangerougSquares = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
-      if(piece.color !== this.whoseTurn){
-        dangerougSquares.push(...piece.getValidMoves(id, this.virtualBoard))
-      } else if (piece.name === 'king'){
+      if (piece.color !== this.whoseTurn) {
+        dangerougSquares.push(...piece.getValidMoves(id, this.virtualBoard));
+      } else if (piece.name === "king") {
         kingPos = id;
       }
     });
-    if (dangerougSquares.includes(kingPos)){
-      console.log('Check')
-      this.isCheck = true;
+    if (dangerougSquares.includes(kingPos)) {
+      this.mateIndicator.innerHTML = "Mate";
+    }
+    return true;
+  }
+
+  // check if you can make any move to defend the king
+  checkForCheckMate() {
+    let validMoves = [];
+    Object.entries(this.virtualBoard).forEach(([id, piece]) => {
+      if (piece.color === this.whoseTurn) {
+        let moves = piece.getValidMoves(id, this.virtualBoard, true);
+        if (moves) {
+          validMoves.push(...moves);
+        }
+      }
+    });
+    console.log(validMoves);
+    // let moves = piece.getValidMoves(sqId, this.virtualBoard, true);
+    if (!validMoves.length) {
+      this.mateIndicator.innerHTML = "Check Mate";
+      console.log("check mate");
     }
   }
 
@@ -200,7 +220,7 @@ class Board {
     this.whitesTurnIndicator.classList.toggle("hidden");
     this.blacksTurnIndicator.classList.toggle("hidden");
     this.showMoves(0);
-    // this.checkForCheckmate()
+    if (this.checkForMate()) this.checkForCheckMate();
   }
 
   addTurnToHistory(sqId) {

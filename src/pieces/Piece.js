@@ -140,13 +140,6 @@ class Piece {
     if (otherPieceBuff !== undefined) {
       virtualBoard[sqId] = otherPieceBuff;
     }
-    // console.log("this.id", virtualBoard[this.id]);
-    // console.log("sqId", virtualBoard[sqId]);
-    // console.log("-end-");
-    // console.log(dangerougSquares, kingPos)
-    // console.log(virtualBoard)
-
-    // return false;
     return !dangerougSquares.includes(kingPos);
 
     // reverting virtualBoard to normal state
