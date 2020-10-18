@@ -2,21 +2,21 @@
 
 ## About
 
-Chess. Made by me.
-For now you can only play against 
+Chess. Made by me. I've written it in HTML, SCSS and vanilla JavaScript. I've used Webpack to compile SCSS and JS into one file.
+For now you can only play against yourself, and few rules are not implemented yet.
+
+![](presentation.png)
 
 ## Installation
 ```
 git clone https://github.com/kolaczyn/chess-js.git
 cd chess-js
 npm install
-npm build
+npm run build
+# You can now open index.html in a browser
 ```
 
-## Technology used
-I've written it in HTML, SCSS and vanilla JavaScript. I've used Webpack to compile it from CommonJS into one file.
-
-## What's left to do
+## Todo
 - Castling
 - Pawn promotion
 - Restarting game
@@ -24,7 +24,7 @@ I've written it in HTML, SCSS and vanilla JavaScript. I've used Webpack to compi
 - Resigning
 - Draw
 - Browse history
-- Fix history when there's too many elements
+- Fix history when there are too many elements
 - More responsive
 - Menu
 - AI
