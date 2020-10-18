@@ -7,7 +7,7 @@ class Knight extends Piece {
     this.name = "knight";
   }
 
-  getValidMoves(sqId, virtualBoard) {
+  getValidMoves(sqId, virtualBoard, checkForCheckmate) {
     let moves = [];
     // I don't like it; find another way
     moves.push(
@@ -35,6 +35,12 @@ class Knight extends Piece {
     moves.push(
       ...this.checkMoves(virtualBoard, (r, c, i) => [r + 1, c + 2])
     );
+
+    if (checkForCheckmate) {
+      return moves.filter((id) => {
+        return this.checkForCheckmate(id, virtualBoard);
+      });
+    }
 
     return [...moves];
   }

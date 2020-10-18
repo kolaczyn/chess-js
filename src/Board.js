@@ -4,13 +4,14 @@ const King = require("./pieces/King");
 const Rook = require("./pieces/Rook");
 const Queen = require("./pieces/Queen");
 const Pawn = require("./pieces/Pawn");
-const Knight = require('./pieces/Knight')
+const Knight = require("./pieces/Knight");
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
 class Board {
   constructor(initialBoardState) {
     this.whoseTurn = "white";
+    this.isCheck = false;
     this.selectedPiece = null;
     this.validMoves = [];
 
@@ -23,7 +24,7 @@ class Board {
     this.whitesTurnIndicator = document.getElementById("whites-turn");
     this.blacksTurnIndicator = document.getElementById("blacks-turn");
 
-    this.notificationSink = document.getElementById("notification-sink__body")
+    this.notificationSink = document.getElementById("notification-sink__body");
   }
 
   static stringToClass(s) {
@@ -123,6 +124,23 @@ class Board {
     }
   }
 
+  checkForCheckmate() {
+    // find the king, figure out where the enemy can move and see if the king is in danger
+    let kingPos
+    let dangerougSquares = []
+    Object.entries(this.virtualBoard).forEach(([id, piece]) => {
+      if(piece.color !== this.whoseTurn){
+        dangerougSquares.push(...piece.getValidMoves(id, this.virtualBoard))
+      } else if (piece.name === 'king'){
+        kingPos = id;
+      }
+    });
+    if (dangerougSquares.includes(kingPos)){
+      console.log('Check')
+      this.isCheck = true;
+    }
+  }
+
   movePiece(sqId) {
     this.movePieceDom(sqId);
     this.movePieceVirtual(sqId);
@@ -130,7 +148,7 @@ class Board {
 
   movePieceVirtual(sqId) {
     let buff = this.virtualBoard[this.selectedPiece];
-    this.virtualBoard[this.selectedPiece].id =  sqId// change sqId on the object
+    this.virtualBoard[this.selectedPiece].id = sqId; // change sqId on the object
     this.virtualBoard[this.selectedPiece].hasMoved = true;
     delete this.virtualBoard[this.selectedPiece];
     this.virtualBoard[sqId] = buff;
@@ -152,7 +170,7 @@ class Board {
         let moveSq = document.getElementById(m);
         moveSq.classList.remove("square--valid-move");
       });
-      let moves = piece.getValidMoves(sqId, this.virtualBoard);
+      let moves = piece.getValidMoves(sqId, this.virtualBoard, true);
       moves.forEach((m) => {
         let moveSq = document.getElementById(m);
         moveSq.classList.add("square--valid-move");
@@ -176,26 +194,29 @@ class Board {
   }
 
   nextTurn(sqId) {
-    this.addTurnToHistory(sqId)
+    this.addTurnToHistory(sqId);
     this.switchTurnColor();
     let text = `${this.whoseTurn}'s turn`;
-    this.whitesTurnIndicator.classList.toggle('hidden')
-    this.blacksTurnIndicator.classList.toggle('hidden')
+    this.whitesTurnIndicator.classList.toggle("hidden");
+    this.blacksTurnIndicator.classList.toggle("hidden");
     this.showMoves(0);
+    // this.checkForCheckmate()
   }
 
-  addTurnToHistory(sqId){
-    let a = document.createElement("a")
-    a.innerHTML = `${this.idToHumRead(this.selectedPiece)} ${this.idToHumRead(sqId)}`
-    a.href = "#"
-    this.notificationSink.appendChild(a)
+  addTurnToHistory(sqId) {
+    let a = document.createElement("a");
+    a.innerHTML = `${this.idToHumRead(this.selectedPiece)} ${this.idToHumRead(
+      sqId
+    )}`;
+    a.href = "#";
+    this.notificationSink.appendChild(a);
   }
 
-  idToHumRead(id){
-    let [row, col] = id.split('-')
-    row = parseInt(row)+1
-    col = String.fromCharCode("A".charCodeAt(0) + parseInt(col))
-    return `${row}-${col}`
+  idToHumRead(id) {
+    let [row, col] = id.split("-");
+    row = parseInt(row) + 1;
+    col = String.fromCharCode("A".charCodeAt(0) + parseInt(col));
+    return `${row}-${col}`;
   }
 }
 

@@ -1,5 +1,5 @@
 // this should be json, not js
-let initialBoardState = {
+let initialBoardState0 = {
   "0-0": "white-rook",
   "0-1": "white-knight",
   "0-2": "white-bishop",
@@ -35,7 +35,7 @@ let initialBoardState = {
   "6-7": "black-pawn",
 };
 
-let testingBoardState1 = {
+let initialBoardState1 = {
   "0-0": "white-rook",
   "2-0": "white-knight",
   "0-2": "white-bishop",
@@ -70,9 +70,10 @@ let testingBoardState1 = {
   "6-6": "black-pawn",
   "6-7": "black-pawn",
 };
-let testingBoardState2 = {
+// this should be json, not js
+let initialBoardState2 = {
   "0-0": "white-rook",
-  "3-3": "white-knight",
+  "0-1": "white-knight",
   "0-2": "white-bishop",
   "0-3": "white-queen",
   "0-4": "white-king",
@@ -83,7 +84,7 @@ let testingBoardState2 = {
   "1-1": "white-pawn",
   "1-2": "white-pawn",
   "1-3": "white-pawn",
-  "1-4": "white-pawn",
+  "3-4": "white-pawn",
   "1-5": "white-pawn",
   "1-6": "white-pawn",
   "1-7": "white-pawn",
@@ -96,15 +97,15 @@ let testingBoardState2 = {
   "7-5": "black-bishop",
   "7-6": "black-knight",
   "7-7": "black-rook",
-  "5-0": "black-pawn",
-  "5-1": "black-pawn",
-  "5-2": "black-pawn",
+  "6-0": "black-pawn",
+  "6-1": "black-pawn",
+  "6-2": "black-pawn",
   "5-3": "black-pawn",
-  "5-4": "black-pawn",
-  "5-5": "black-pawn",
-  "5-6": "black-pawn",
-  "5-7": "black-pawn",
+  "6-4": "black-pawn",
+  "6-5": "black-pawn",
+  "6-6": "black-pawn",
+  "6-7": "black-pawn",
 };
 
 // module.exports = initialBoardState
-module.exports = initialBoardState
+module.exports = initialBoardState0

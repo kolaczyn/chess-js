@@ -6,7 +6,7 @@ class King extends Piece {
     this.name = "king";
   }
   // for now there is no checkmate and castling as of now
-  getValidMoves(sqId, virtualBoard) {
+  getValidMoves(sqId, virtualBoard, checkForCheckmate) {
     let validMoves = [];
     let range = [-1, 0, 1];
     for (let i = -1; i < 2; i++) {
@@ -25,6 +25,11 @@ class King extends Piece {
           }
         }
       }
+    }
+    if (checkForCheckmate) {
+      return validMoves.filter((id) => {
+        return this.checkForCheckmate(id, virtualBoard);
+      });
     }
     return validMoves;
   }

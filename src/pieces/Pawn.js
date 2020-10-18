@@ -8,7 +8,7 @@ class Pawn extends Piece {
 
   // this is very messy, will have to come up with something better
   // also, implement attacking and en passant
-  getValidMoves(sqId, virtualBoard) {
+  getValidMoves(sqId, virtualBoard, checkForCheckmate) {
     let out = [];
     let moveSquaresToCheck = [];
     // attacks need to be checked differently, because pawn is weird
@@ -45,6 +45,12 @@ class Pawn extends Piece {
         out.push(move2);
       }
     }
+    if (checkForCheckmate) {
+      return out.filter((id) => {
+        return this.checkForCheckmate(id, virtualBoard);
+      });
+    }
+
     return out;
   }
 }
