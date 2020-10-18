@@ -1,22 +1,3 @@
-.square {
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
-
-  &__black {
-    background-color: $color-board-black;
-  }
-  &__white {
-    background-color: $color-board-white;
-  }
-}
-// figure out a better way of selecting the squares
-.square--valid-move.square__black {
-  border: 1vmin solid rgb(88, 196, 17);
-}
-.square--valid-move.square__white {
-  border: 1vmin solid rgb(88, 196, 17);
-}
 
 #chess-div {
   grid-row: 2 / span 1;
@@ -24,25 +5,17 @@
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-  // padding: 0.6vmin;
 }
 
-// outdo the board's rotation
-// all done with these CSS lines
-// pretty smart, if I do say so myself c:
+// outdo the board's rotation on the children
 #chess-div.rotate > button {
   transform: rotate(180deg);
 }
 
-/* will have fix the border (why 84vmin and 81vmin and why x and y margin between square is different?) */
 #chess-div {
   background-color: $color-board-white;
   border-radius: 0.6vmin;
   overflow: hidden;
 
   cursor: pointer;
-
-  // display: flex;
-  // flex-wrap: wrap;
-  // justify-content: center;
 }

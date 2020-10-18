@@ -1,0 +1,18 @@
+.square {
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  &__black {
+    background-color: $color-board-black;
+  }
+  &__white {
+    background-color: $color-board-white;
+  }
+  &--valid-move.square__black {
+    background-color: $color-board-highlight-black;
+  }
+  &--valid-move.square__white {
+    background-color: $color-board-highlight-white;
+  }
+}

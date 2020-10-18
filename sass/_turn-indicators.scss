@@ -1,5 +1,7 @@
 .blacks-turn {
   grid-column: 4 / span 1;
+  align-self: end;
+
 }
 
 .whites-turn {
@@ -13,5 +15,5 @@
   text-align: left;
   padding: 1.2vmin;
   border-radius: .6vmin;
-  text-transform: capitalize;
+  height: 90%;
 }

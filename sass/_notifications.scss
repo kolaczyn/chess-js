@@ -9,20 +9,24 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  &__upper {
-    overflow: hidden;
-  }
+  overflow: hidden;
   &__divider{
     border-radius: 2vmin;
     margin-top: .75vmin;
     height: .4vmin;
     background-color: rgba($color-black-dark, .4);    
     width: 100%;
+    margin-top: .75vmin;
+    margin-bottom: .75vmin;
   }
   &__buttons{
     margin-top: 1vmin;
     display: flex;
     justify-content: space-between;
+  }
+  &__body{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 

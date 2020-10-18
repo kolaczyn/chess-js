@@ -20,7 +20,10 @@ class Board {
     this.DomBoard = document.getElementById("chess-div");
     this.initializeSquaresAndPieces();
 
-    this.turnIndicator = document.getElementById("whites-turn__text");
+    this.whitesTurnIndicator = document.getElementById("whites-turn");
+    this.blacksTurnIndicator = document.getElementById("blacks-turn");
+
+    this.notificationSink = document.getElementById("notification-sink__body")
   }
 
   static stringToClass(s) {
@@ -114,7 +117,7 @@ class Board {
         // we want to move
         if (this.validMoves.includes(sqId)) {
           this.movePiece(sqId);
-          this.nextTurn();
+          this.nextTurn(sqId);
         }
       }
     }
@@ -172,11 +175,27 @@ class Board {
     }
   }
 
-  nextTurn() {
+  nextTurn(sqId) {
+    this.addTurnToHistory(sqId)
     this.switchTurnColor();
     let text = `${this.whoseTurn}'s turn`;
-    this.turnIndicator.innerHTML = text;
+    this.whitesTurnIndicator.classList.toggle('hidden')
+    this.blacksTurnIndicator.classList.toggle('hidden')
     this.showMoves(0);
+  }
+
+  addTurnToHistory(sqId){
+    let a = document.createElement("a")
+    a.innerHTML = `${this.idToHumRead(this.selectedPiece)} ${this.idToHumRead(sqId)}`
+    a.href = "#"
+    this.notificationSink.appendChild(a)
+  }
+
+  idToHumRead(id){
+    let [row, col] = id.split('-')
+    row = parseInt(row)+1
+    col = String.fromCharCode("A".charCodeAt(0) + parseInt(col))
+    return `${row}-${col}`
   }
 }
 
