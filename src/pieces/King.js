@@ -1,25 +1,25 @@
-const Piece = require("./Piece");
+const Piece = require('./Piece');
 
 class King extends Piece {
   constructor(color, hasMoved, id) {
     super(color, hasMoved, id);
-    this.name = "king";
+    this.name = 'king';
   }
+
   // for now there is no checkmate and castling as of now
   getValidMoves(sqId, virtualBoard, checkForCheckmate) {
-    let validMoves = [];
-    let range = [-1, 0, 1];
+    const validMoves = [];
+    const range = [-1, 0, 1];
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         if ((i || j) && Piece.isInRange(this.row + i, this.col + j)) {
-          let potentialPiece = Piece.isSquareOccupied(
+          const potentialPiece = Piece.isSquareOccupied(
             this.row + i,
             this.col + j,
-            virtualBoard
+            virtualBoard,
           );
           if (potentialPiece) {
-            if (potentialPiece !== this.color)
-              validMoves.push(`${this.row + i}-${this.col + j}`);
+            if (potentialPiece !== this.color) { validMoves.push(`${this.row + i}-${this.col + j}`); }
           } else {
             validMoves.push(`${this.row + i}-${this.col + j}`);
           }
@@ -27,9 +27,7 @@ class King extends Piece {
       }
     }
     if (checkForCheckmate) {
-      return validMoves.filter((id) => {
-        return this.checkForCheckmate(id, virtualBoard);
-      });
+      return validMoves.filter((id) => this.checkForCheckmate(id, virtualBoard));
     }
     return validMoves;
   }

@@ -11,27 +11,28 @@ class Piece {
   }
 
   get row() {
-    return parseInt(this.id.split("-")[0]);
+    return parseInt(this.id.split('-')[0]);
   }
+
   get col() {
-    return parseInt(this.id.split("-")[1]);
+    return parseInt(this.id.split('-')[1]);
   }
 
   static sqIdToRowCol(sqId) {
-    let [row, col] = sqId.split("-");
+    const [row, col] = sqId.split('-');
     return [parseInt(row), parseInt(col)];
   }
 
   static isInRange(row, col) {
-    return 0 <= row && row <= 7 && 0 <= col && col <= 7;
+    return row >= 0 && row <= 7 && col >= 0 && col <= 7;
   }
 
   static isSquareOccupied(row, col, virtualBoard) {
-    let piece = virtualBoard[`${row}-${col}`];
+    const piece = virtualBoard[`${row}-${col}`];
     if (piece) {
       return piece.color;
     }
-    return "";
+    return '';
   }
 
   static rowColToSqId(row, col) {
@@ -42,13 +43,13 @@ class Piece {
   // helper function
   // it stops when it encourters an obstacle
   checkMovesBreak(virtualBoard, calculateSquare) {
-    let validMoves = [];
+    const validMoves = [];
     for (let i = 1; i < 8; i++) {
-      let checkedSquare = calculateSquare(this.row, this.col, i);
+      const checkedSquare = calculateSquare(this.row, this.col, i);
       if (Piece.isInRange(...checkedSquare)) {
-        let potentialPiece = Piece.isSquareOccupied(
+        const potentialPiece = Piece.isSquareOccupied(
           ...checkedSquare,
-          virtualBoard
+          virtualBoard,
         );
         if (potentialPiece) {
           if (potentialPiece !== this.color) {
@@ -60,15 +61,16 @@ class Piece {
     }
     return validMoves;
   }
+
   // I should probably rewrite this so it accepts array of squares to check
   // and then checks them, returns array of valid squares
   checkMoves(virtualBoard, calculateSquare) {
-    let validMoves = [];
-    let checkedSquare = calculateSquare(this.row, this.col);
+    const validMoves = [];
+    const checkedSquare = calculateSquare(this.row, this.col);
     if (Piece.isInRange(...checkedSquare)) {
-      let potentialPiece = Piece.isSquareOccupied(
+      const potentialPiece = Piece.isSquareOccupied(
         ...checkedSquare,
-        virtualBoard
+        virtualBoard,
       );
       if (potentialPiece) {
         if (potentialPiece !== this.color) {
@@ -80,25 +82,25 @@ class Piece {
   }
 
   getValidHorizontalMoves(sqId, virtualBoard) {
-    let [row, col] = Piece.sqIdToRowCol(sqId);
-    let top = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c]);
-    let right = this.checkMovesBreak(virtualBoard, (r, c, i) => [r, c + i]);
-    let bottom = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c]);
-    let left = this.checkMovesBreak(virtualBoard, (r, c, i) => [r, c - i]);
+    const [row, col] = Piece.sqIdToRowCol(sqId);
+    const top = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c]);
+    const right = this.checkMovesBreak(virtualBoard, (r, c, i) => [r, c + i]);
+    const bottom = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c]);
+    const left = this.checkMovesBreak(virtualBoard, (r, c, i) => [r, c - i]);
 
     return [...top, ...right, ...bottom, ...left];
   }
 
   getValidDiagonalMoves(sqId, virtualBoard) {
-    let [row, col] = Piece.sqIdToRowCol(sqId);
-    let tl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c - i]);
-    let tr = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c + i]);
-    let br = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c + i]);
-    let bl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c - i]);
+    const [row, col] = Piece.sqIdToRowCol(sqId);
+    const tl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c - i]);
+    const tr = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c + i]);
+    const br = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c + i]);
+    const bl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c - i]);
     // console.log(sqId)
 
-    let intialMoves = [...tl, ...tr, ...br, ...bl];
-    //safe means that they don't cause the piece's king's "checkmate"
+    const intialMoves = [...tl, ...tr, ...br, ...bl];
+    // safe means that they don't cause the piece's king's "checkmate"
     // if is here so we don't cause an infinite loop
 
     // return safeMoves;
@@ -118,19 +120,19 @@ class Piece {
     // before exiting the function
 
     // save piece that may be where we want to move, so we can populate it later
-    let otherPieceBuff = virtualBoard[sqId];
+    const otherPieceBuff = virtualBoard[sqId];
     // we remove the current position of the piece
     delete virtualBoard[this.id];
     // we move the piece to sqId
     virtualBoard[sqId] = this;
 
     let kingPos;
-    let dangerougSquares = [];
+    const dangerougSquares = [];
     Object.entries(virtualBoard).forEach(([id, piece]) => {
       // console.log(id, piece);
       if (piece.color !== this.color) {
         dangerougSquares.push(...piece.getValidMoves(id, virtualBoard));
-      } else if (piece.name === "king") {
+      } else if (piece.name === 'king') {
         kingPos = id;
       }
     });

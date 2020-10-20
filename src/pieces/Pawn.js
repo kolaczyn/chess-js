@@ -1,37 +1,37 @@
-const Piece = require("./Piece");
+const Piece = require('./Piece');
 
 class Pawn extends Piece {
   constructor(color, hasMoved, id) {
     super(color, false, id);
-    this.name = "pawn";
+    this.name = 'pawn';
   }
 
   // this is very messy, will have to come up with something better
   // also, implement attacking and en passant
   getValidMoves(sqId, virtualBoard, checkForCheckmate) {
-    let out = [];
-    let moveSquaresToCheck = [];
+    const out = [];
+    const moveSquaresToCheck = [];
     // attacks need to be checked differently, because pawn is weird
-    let attackSquaresToCheck = [];
+    const attackSquaresToCheck = [];
     let direction;
-    if (this.color === "white") {
+    if (this.color === 'white') {
       direction = 1;
     } else {
       direction = -1;
     }
 
     // this will have to do for now
-    let move1 = `${this.row + direction}-${this.col}`;
-    let move2 = `${this.row + direction * 2}-${this.col}`;
+    const move1 = `${this.row + direction}-${this.col}`;
+    const move2 = `${this.row + direction * 2}-${this.col}`;
 
-    let move1Target = virtualBoard[move1];
-    let move2Target = virtualBoard[move2];
+    const move1Target = virtualBoard[move1];
+    const move2Target = virtualBoard[move2];
 
-    let attack1 = `${this.row + direction}-${this.col - 1}`;
-    let attack2 = `${this.row + direction}-${this.col + 1}`;
+    const attack1 = `${this.row + direction}-${this.col - 1}`;
+    const attack2 = `${this.row + direction}-${this.col + 1}`;
 
-    let attack1Target = virtualBoard[attack1];
-    let attack2Target = virtualBoard[attack2];
+    const attack1Target = virtualBoard[attack1];
+    const attack2Target = virtualBoard[attack2];
 
     if (attack1Target && attack1Target.color != this.color) {
       out.push(attack1);
@@ -46,9 +46,7 @@ class Pawn extends Piece {
       }
     }
     if (checkForCheckmate) {
-      return out.filter((id) => {
-        return this.checkForCheckmate(id, virtualBoard);
-      });
+      return out.filter((id) => this.checkForCheckmate(id, virtualBoard));
     }
 
     return out;

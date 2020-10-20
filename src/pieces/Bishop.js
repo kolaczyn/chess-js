@@ -1,9 +1,9 @@
-const Piece = require("./Piece");
+const Piece = require('./Piece');
 
 class Bishop extends Piece {
   constructor(color, hasMoved, id) {
     super(color, hasMoved, id);
-    this.name = "bishop";
+    this.name = 'bishop';
     // if (checkForCheckmate){
     //   let safeMoves = intialMoves.filter((id) =>
     //   );
@@ -11,12 +11,11 @@ class Bishop extends Piece {
 
     // this.getValidMoves = this.getValidDiagonalMoves;
   }
+
   getValidMoves(sqId, virtualBoard, checkForCheckmate) {
-    let moves = this.getValidDiagonalMoves(sqId, virtualBoard);
+    const moves = this.getValidDiagonalMoves(sqId, virtualBoard);
     if (checkForCheckmate) {
-      return moves.filter((id) => {
-        return this.checkForCheckmate(id, virtualBoard);
-      });
+      return moves.filter((id) => this.checkForCheckmate(id, virtualBoard));
     }
     return moves;
   }

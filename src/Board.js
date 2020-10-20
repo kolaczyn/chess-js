@@ -1,90 +1,85 @@
-const { Piece } = require("./pieces/Piece");
-const Bishop = require("./pieces/Bishop");
-const King = require("./pieces/King");
-const Rook = require("./pieces/Rook");
-const Queen = require("./pieces/Queen");
-const Pawn = require("./pieces/Pawn");
-const Knight = require("./pieces/Knight");
+const { Piece } = require('./pieces/Piece');
+const Bishop = require('./pieces/Bishop');
+const King = require('./pieces/King');
+const Rook = require('./pieces/Rook');
+const Queen = require('./pieces/Queen');
+const Pawn = require('./pieces/Pawn');
+const Knight = require('./pieces/Knight');
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
 class Board {
   constructor(initialBoardState) {
-    this.whoseTurn = "white";
+    this.whoseTurn = 'white';
     this.selectedPiece = null;
     this.validMoves = [];
 
     this.virtualBoard = {};
     this.initializeVirtualBoard(initialBoardState);
 
-    this.DomBoard = document.getElementById("chess-div");
+    this.DomBoard = document.getElementById('chess-div');
     this.initializeSquaresAndPieces();
 
-    this.whitesTurnIndicator = document.getElementById("whites-turn");
-    this.blacksTurnIndicator = document.getElementById("blacks-turn");
+    this.whitesTurnIndicator = document.getElementById('whites-turn');
+    this.blacksTurnIndicator = document.getElementById('blacks-turn');
 
-    this.notificationSink = document.getElementById("notification-sink__body");
-    this.mateIndicator = document.getElementById("notification-sink__mate");
+    this.notificationSink = document.getElementById('notification-sink__body');
+    this.mateIndicator = document.getElementById('notification-sink__mate');
   }
 
   static stringToClass(s) {
     switch (s) {
-      case "rook":
+      case 'rook':
         return Rook;
-        break;
-      case "knight":
+      case 'knight':
         return Knight;
-        break;
-      case "bishop":
+      case 'bishop':
         return Bishop;
-        break;
-      case "queen":
+      case 'queen':
         return Queen;
-        break;
-      case "king":
+      case 'king':
         return King;
-        break;
-      case "pawn":
+      case 'pawn':
         return Pawn;
-        break;
       default:
-        throw new Error("Invalid piece class name.");
+        throw new Error('Invalid piece class name.');
     }
   }
 
   initializeVirtualBoard(initialBoardState) {
     Object.entries(initialBoardState).forEach(([key, value]) => {
-      let [color, pieceName] = value.split("-");
+      const [color, pieceName] = value.split('-');
       const pieceConstructor = Board.stringToClass(pieceName);
       this.virtualBoard[key] = new pieceConstructor(color, false, key);
     });
   }
 
   initializeSquaresAndPieces() {
-    for (let col = 7; col >= 0; col--)
+    for (let col = 7; col >= 0; col--) {
       for (let row = 0; row < 8; row++) {
-        let classes = [];
-        classes.push("square");
-        if ((col + row) % 2) classes.push("square__white");
-        else classes.push("square__black");
-        let potentialPiece = this.virtualBoard[
+        const classes = [];
+        classes.push('square');
+        if ((col + row) % 2) classes.push('square__white');
+        else classes.push('square__black');
+        const potentialPiece = this.virtualBoard[
           `${col.toString()}-${row.toString()}`
         ];
 
-        let colorPiece = ""; // jjust a workaround, It's probably not the cleanset solution
+        let colorPiece = ''; // jjust a workaround, It's probably not the cleanset solution
         if (potentialPiece !== undefined) {
           colorPiece = `${potentialPiece.color}-${potentialPiece.name}`;
         }
         this.DomBoard.appendChild(
-          this.createSquare(col, row, classes, colorPiece)
+          this.createSquare(col, row, classes, colorPiece),
         );
       }
+    }
   }
 
   createSquare(col, row, classes, colorPiece) {
-    let id = `${col}-${row}`;
-    const square = document.createElement("button");
-    square.addEventListener("click", () => {
+    const id = `${col}-${row}`;
+    const square = document.createElement('button');
+    square.addEventListener('click', () => {
       this.clickedSquare(id);
     });
     // square.id = classes;
@@ -101,14 +96,15 @@ class Board {
   }
 
   clickedSquare(sqId) {
-    let piece = this.virtualBoard[sqId];
+    const piece = this.virtualBoard[sqId];
     // we didn't select any piece prior, and we want to do this now
     if (!this.selectedPiece) {
-      if (piece !== undefined)
+      if (piece !== undefined) {
         if (piece.color === this.whoseTurn) {
           this.showMoves(sqId);
           this.selectedPiece = sqId;
         }
+      }
     } else {
       // we're checking if we want to change a piece we control
       if (piece !== undefined && piece.color === this.whoseTurn) {
@@ -126,28 +122,28 @@ class Board {
 
   checkForMate() {
     // find the king, figure out where the enemy can move and see if the king is in danger
-    this.mateIndicator.innerHTML = "";
+    this.mateIndicator.innerHTML = '';
     let kingPos;
-    let dangerougSquares = [];
+    const dangerougSquares = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.whoseTurn) {
         dangerougSquares.push(...piece.getValidMoves(id, this.virtualBoard));
-      } else if (piece.name === "king") {
+      } else if (piece.name === 'king') {
         kingPos = id;
       }
     });
     if (dangerougSquares.includes(kingPos)) {
-      this.mateIndicator.innerHTML = "Mate";
+      this.mateIndicator.innerHTML = 'Mate';
     }
     return true;
   }
 
   // check if you can make any move to defend the king
   checkForCheckMate() {
-    let validMoves = [];
+    const validMoves = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color === this.whoseTurn) {
-        let moves = piece.getValidMoves(id, this.virtualBoard, true);
+        const moves = piece.getValidMoves(id, this.virtualBoard, true);
         if (moves) {
           validMoves.push(...moves);
         }
@@ -156,8 +152,8 @@ class Board {
     console.log(validMoves);
     // let moves = piece.getValidMoves(sqId, this.virtualBoard, true);
     if (!validMoves.length) {
-      this.mateIndicator.innerHTML = "Check Mate";
-      console.log("check mate");
+      this.mateIndicator.innerHTML = 'Check Mate';
+      console.log('check mate');
     }
   }
 
@@ -167,7 +163,7 @@ class Board {
   }
 
   movePieceVirtual(sqId) {
-    let buff = this.virtualBoard[this.selectedPiece];
+    const buff = this.virtualBoard[this.selectedPiece];
     this.virtualBoard[this.selectedPiece].id = sqId; // change sqId on the object
     this.virtualBoard[this.selectedPiece].hasMoved = true;
     delete this.virtualBoard[this.selectedPiece];
@@ -175,67 +171,67 @@ class Board {
   }
 
   movePieceDom(sqId) {
-    let initialSq = document.getElementById(this.selectedPiece);
-    let img = initialSq.style.backgroundImage;
-    initialSq.style = "";
-    let outSq = document.getElementById(sqId);
+    const initialSq = document.getElementById(this.selectedPiece);
+    const img = initialSq.style.backgroundImage;
+    initialSq.style = '';
+    const outSq = document.getElementById(sqId);
     outSq.style.backgroundImage = img;
   }
 
   showMoves(sqId) {
-    let piece = this.virtualBoard[sqId];
+    const piece = this.virtualBoard[sqId];
     if (piece) {
       // removing class from the old moves
       this.validMoves.forEach((m) => {
-        let moveSq = document.getElementById(m);
-        moveSq.classList.remove("square--valid-move");
+        const moveSq = document.getElementById(m);
+        moveSq.classList.remove('square--valid-move');
       });
-      let moves = piece.getValidMoves(sqId, this.virtualBoard, true);
+      const moves = piece.getValidMoves(sqId, this.virtualBoard, true);
       moves.forEach((m) => {
-        let moveSq = document.getElementById(m);
-        moveSq.classList.add("square--valid-move");
+        const moveSq = document.getElementById(m);
+        moveSq.classList.add('square--valid-move');
       });
       this.validMoves = moves;
     } else {
       this.validMoves.forEach((m) => {
-        let moveSq = document.getElementById(m);
-        moveSq.classList.remove("square--valid-move");
+        const moveSq = document.getElementById(m);
+        moveSq.classList.remove('square--valid-move');
       });
       this.validMoves = [];
     }
   }
 
   switchTurnColor() {
-    if (this.whoseTurn === "black") {
-      this.whoseTurn = "white";
+    if (this.whoseTurn === 'black') {
+      this.whoseTurn = 'white';
     } else {
-      this.whoseTurn = "black";
+      this.whoseTurn = 'black';
     }
   }
 
   nextTurn(sqId) {
     this.addTurnToHistory(sqId);
     this.switchTurnColor();
-    let text = `${this.whoseTurn}'s turn`;
-    this.whitesTurnIndicator.classList.toggle("hidden");
-    this.blacksTurnIndicator.classList.toggle("hidden");
+    const text = `${this.whoseTurn}'s turn`;
+    this.whitesTurnIndicator.classList.toggle('hidden');
+    this.blacksTurnIndicator.classList.toggle('hidden');
     this.showMoves(0);
     if (this.checkForMate()) this.checkForCheckMate();
   }
 
   addTurnToHistory(sqId) {
-    let a = document.createElement("a");
+    const a = document.createElement('a');
     a.innerHTML = `${this.idToHumRead(this.selectedPiece)} ${this.idToHumRead(
-      sqId
+      sqId,
     )}`;
-    a.href = "#";
+    a.href = '#';
     this.notificationSink.appendChild(a);
   }
 
   idToHumRead(id) {
-    let [row, col] = id.split("-");
+    let [row, col] = id.split('-');
     row = parseInt(row) + 1;
-    col = String.fromCharCode("A".charCodeAt(0) + parseInt(col));
+    col = String.fromCharCode('A'.charCodeAt(0) + parseInt(col));
     return `${row}-${col}`;
   }
 }
