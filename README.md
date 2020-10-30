@@ -3,7 +3,8 @@
 ## About
 
 Chess. Made by me. I've written it in HTML, SCSS and vanilla JavaScript. I've used Webpack to compile SCSS and JS into one file.
-For now you can only play against yourself, and few rules are not implemented yet.
+For now you can only play against yourself, and few rules are not implemented yet.  
+You can play it [here](https://kolaczyn.com).
 
 ![](presentation.png)
 
