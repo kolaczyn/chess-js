@@ -5,6 +5,7 @@ import Pawn from './pieces/Pawn';
 import Queen from './pieces/Queen';
 import Rook from './pieces/Rook';
 import { BoardState, Color, Figure, SquareId, VirtualBoard } from './types';
+import { saveGame } from './utils/gameSave.ts';
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
@@ -20,8 +21,8 @@ class Board {
   notificationSink: HTMLElement;
   mateIndicator: HTMLElement;
 
-  constructor(initialBoardState: BoardState) {
-    this.whoseTurn = 'white';
+  constructor(initialBoardState: BoardState, whoseTurn: Color = 'white') {
+    this.whoseTurn = whoseTurn;
     this.selectedPiece = null;
     this.validMoves = [];
 
@@ -129,6 +130,8 @@ class Board {
         if (this.validMoves.includes(sqId)) {
           this.movePiece(sqId);
           this.nextTurn(sqId);
+
+          saveGame(this.virtualBoard, this.whoseTurn);
         }
       }
     }
