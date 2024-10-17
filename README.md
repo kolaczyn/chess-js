@@ -18,6 +18,7 @@ yarn dev
 
 ## Todo
 
+- [ ] Don't load CSS via JS
 - [ ] Castling
 - [ ] Pawn promotion
 - [ ] Restarting game
