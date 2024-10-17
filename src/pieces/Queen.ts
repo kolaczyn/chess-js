@@ -1,13 +1,16 @@
-import Piece from './Piece';
+import Piece from './Piece.js';
 
-class Rook extends Piece {
+class Queen extends Piece {
   constructor(color, hasMoved, id) {
     super(color, hasMoved, id);
-    this.name = 'rook';
+    this.name = 'queen';
   }
 
   getValidMoves(sqId, virtualBoard, checkForCheckmate) {
-    const moves = this.getValidHorizontalMoves(sqId, virtualBoard);
+    const moves = [
+      ...this.getValidDiagonalMoves(sqId, virtualBoard),
+      ...this.getValidHorizontalMoves(sqId, virtualBoard),
+    ];
     if (checkForCheckmate) {
       return moves.filter((id) => this.checkForCheckmate(id, virtualBoard));
     }
@@ -15,4 +18,4 @@ class Rook extends Piece {
   }
 }
 
-export default Rook;
+export default Queen;
