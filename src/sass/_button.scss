@@ -1,0 +1,10 @@
+@use 'variables' as v;
+
+.button {
+  background: v.$color-primary;
+  color: v.$color-white;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  width: 100%;
+  border-radius: 100rem;
+}

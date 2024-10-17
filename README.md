@@ -21,7 +21,7 @@ yarn dev
 - [ ] Don't load CSS via JS
 - [ ] Castling
 - [ ] Pawn promotion
-- [ ] Restarting game
+- [x] Restarting game
 - [ ] En passant
 - [ ] Resigning
 - [ ] Draw
