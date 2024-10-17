@@ -6,12 +6,6 @@ class Bishop extends Piece {
   constructor(color: Color, hasMoved: boolean, id: SquareId) {
     super(color, hasMoved, id);
     this.name = 'bishop';
-    // if (checkForCheckmate){
-    //   let safeMoves = intialMoves.filter((id) =>
-    //   );
-    // }
-
-    // this.getValidMoves = this.getValidDiagonalMoves;
   }
 
   getValidMoves(

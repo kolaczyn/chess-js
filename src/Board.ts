@@ -97,7 +97,6 @@ class Board {
     square.addEventListener('click', () => {
       this.clickedSquare(id as SquareId);
     });
-    // square.id = classes;
     classes.forEach((cl) => {
       square.classList.add(cl);
     });
@@ -139,10 +138,10 @@ class Board {
     // find the king, figure out where the enemy can move and see if the king is in danger
     this.mateIndicator.innerHTML = '';
     let kingPos: SquareId;
-    const dangerougSquares: SquareId[] = [];
+    const dangerousSquares: SquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.whoseTurn) {
-        dangerougSquares.push(
+        dangerousSquares.push(
           ...piece.getValidMoves(id as SquareId, this.virtualBoard),
         );
       } else if (piece.name === 'king') {
@@ -150,7 +149,7 @@ class Board {
       }
     });
     // @ts-expect-error
-    if (dangerougSquares.includes(kingPos)) {
+    if (dangerousSquares.includes(kingPos)) {
       this.mateIndicator.innerHTML = 'Mate';
     }
     return true;
@@ -171,11 +170,9 @@ class Board {
         }
       }
     });
-    console.log(validMoves);
-    // let moves = piece.getValidMoves(sqId, this.virtualBoard, true);
     if (!validMoves.length) {
       this.mateIndicator.innerHTML = 'Check Mate';
-      console.log('check mate');
+      alert('check mate');
     }
   }
 
@@ -199,7 +196,6 @@ class Board {
   movePieceDom(sqId: SquareId) {
     const initialSq = document.getElementById(this.selectedPiece!)!;
     const img = initialSq.style.backgroundImage;
-    // @ts-expect-error
     initialSq.style = '';
     const outSq = document.getElementById(sqId);
     // @ts-expect-error

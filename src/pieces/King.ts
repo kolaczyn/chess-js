@@ -15,7 +15,6 @@ class King extends Piece {
     checkForCheckmate: boolean,
   ): SquareId[] {
     const validMoves: SquareId[] = [];
-    // const range = [-1, 0, 1];
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         if ((i || j) && Piece.isInRange(this.row + i, this.col + j)) {

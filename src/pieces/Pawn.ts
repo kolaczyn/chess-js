@@ -16,9 +16,7 @@ class Pawn extends Piece {
     checkForCheckmate: boolean,
   ): SquareId[] {
     const out: SquareId[] = [];
-    // const moveSquaresToCheck = [];
     // attacks need to be checked differently, because pawn is weird
-    // const attackSquaresToCheck = [];
     let direction: 1 | -1;
     if (this.color === 'white') {
       direction = 1;
