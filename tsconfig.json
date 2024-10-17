@@ -20,6 +20,6 @@
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "vite/chess/src"
+    "src"
   ]
 }

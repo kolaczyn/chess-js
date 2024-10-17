@@ -1,5 +1,6 @@
-// this should be json, not js
-const initialBoardState0 = {
+import { BoardState } from './types';
+
+const initialBoardState0: BoardState = {
   '0-0': 'white-rook',
   '0-1': 'white-knight',
   '0-2': 'white-bishop',
@@ -35,7 +36,8 @@ const initialBoardState0 = {
   '6-7': 'black-pawn',
 };
 
-const initialBoardState1 = {
+// @ts-expect-error
+const initialBoardState1: BoardState = {
   '0-0': 'white-rook',
   '2-0': 'white-knight',
   '0-2': 'white-bishop',
@@ -70,8 +72,9 @@ const initialBoardState1 = {
   '6-6': 'black-pawn',
   '6-7': 'black-pawn',
 };
-// this should be json, not js
-const initialBoardState2 = {
+
+// @ts-expect-error
+const initialBoardState2: BoardState = {
   '0-0': 'white-rook',
   '0-1': 'white-knight',
   '0-2': 'white-bishop',
