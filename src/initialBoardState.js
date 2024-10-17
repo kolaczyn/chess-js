@@ -108,4 +108,3 @@ const initialBoardState2 = {
 };
 
 export default initialBoardState0;
-

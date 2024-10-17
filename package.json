@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier -c src"
   },
   "license": "MIT",
   "devDependencies": {
+    "prettier": "^3.3.3",
     "sass-embedded": "^1.80.1",
     "typescript": "^5.5.3",
     "vite": "^5.4.8"

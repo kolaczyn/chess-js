@@ -1,10 +1,10 @@
-import Piece from "./pieces/Piece";
-import Bishop from "./pieces/Bishop";
-import King from "./pieces/King";
-import Knight from "./pieces/Knight";
-import Pawn from "./pieces/Pawn";
-import Queen from "./pieces/Queen";
-import Rook from "./pieces/Rook";
+import Piece from './pieces/Piece';
+import Bishop from './pieces/Bishop';
+import King from './pieces/King';
+import Knight from './pieces/Knight';
+import Pawn from './pieces/Pawn';
+import Queen from './pieces/Queen';
+import Rook from './pieces/Rook';
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
 class Board {
@@ -60,9 +60,8 @@ class Board {
         classes.push('square');
         if ((col + row) % 2) classes.push('square__white');
         else classes.push('square__black');
-        const potentialPiece = this.virtualBoard[
-          `${col.toString()}-${row.toString()}`
-        ];
+        const potentialPiece =
+          this.virtualBoard[`${col.toString()}-${row.toString()}`];
 
         let colorPiece = ''; // jjust a workaround, It's probably not the cleanset solution
         if (potentialPiece !== undefined) {

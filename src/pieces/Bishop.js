@@ -1,4 +1,4 @@
-import Piece from "./Piece";
+import Piece from './Piece';
 
 class Bishop extends Piece {
   constructor(color, hasMoved, id) {

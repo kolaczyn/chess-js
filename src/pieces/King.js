@@ -1,4 +1,4 @@
-import Piece from "./Piece";
+import Piece from './Piece';
 
 class King extends Piece {
   constructor(color, hasMoved, id) {
@@ -19,7 +19,9 @@ class King extends Piece {
             virtualBoard,
           );
           if (potentialPiece) {
-            if (potentialPiece !== this.color) { validMoves.push(`${this.row + i}-${this.col + j}`); }
+            if (potentialPiece !== this.color) {
+              validMoves.push(`${this.row + i}-${this.col + j}`);
+            }
           } else {
             validMoves.push(`${this.row + i}-${this.col + j}`);
           }
@@ -27,7 +29,9 @@ class King extends Piece {
       }
     }
     if (checkForCheckmate) {
-      return validMoves.filter((id) => this.checkForCheckmate(id, virtualBoard));
+      return validMoves.filter((id) =>
+        this.checkForCheckmate(id, virtualBoard),
+      );
     }
     return validMoves;
   }
