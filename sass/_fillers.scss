@@ -1,6 +1,8 @@
+@use "variables";
+
 .filler{
     border-radius: .6vmin;
-    background-color: rgba($color-black, .4);
+    background-color: rgba(variables.$color-black, .4);
     width: 90%;
     height: 90%;
     // maybe animate the right ones and make them interact with turn indicators

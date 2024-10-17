@@ -1,5 +1,7 @@
+@use "variables";
+
 .notification-sink {
-  background-color: $color-black;
+  background-color: variables.$color-black;
   font-weight: bold;
   border-radius: .6vmin;
   grid-column: 4 / span 1;
@@ -14,7 +16,7 @@
     border-radius: 2vmin;
     margin-top: .75vmin;
     height: .4vmin;
-    background-color: rgba($color-black-dark, .4);    
+    background-color: rgba(variables.$color-black-dark, .4);    
     width: 100%;
     margin-top: .75vmin;
     margin-bottom: .75vmin;
@@ -35,25 +37,25 @@
 }
 
 #clear-notifications-btn {
-  background-color: $color-primary;
+  background-color: variables.$color-primary;
 }
 
 #reset-game-btn{
-  background-color: $color-danger;
+  background-color: variables.$color-danger;
 }
 
 .warning {
-  color: $color-warning;
+  color: variables.$color-warning;
 }
 
 .danger {
-  color: $color-danger;
+  color: variables.$color-danger;
 }
 
 .success {
-  color: $color-success;
+  color: variables.$color-success;
 }
 
 .info {
-  color: $color-info;
+  color: variables.$color-info;
 }

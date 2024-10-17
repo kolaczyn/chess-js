@@ -1,18 +1,18 @@
-@import "base";
-@import 'variables';
+@use "base";
+@use 'variables';
 
-@import "typography";
-@import 'btn';
+@use "typography";
+@use 'btn';
 
-@import 'body';
+@use 'body';
 
-@import 'square';
-@import "board";
+@use 'square';
+@use "board";
 
-@import "bars";
-@import 'fillers';
+@use "bars";
+@use 'fillers';
 
-@import 'notifications.scss';
-@import "turn-indicators";
+@use 'notifications.scss';
+@use "turn-indicators";
 
-@import 'modifiers';
+@use 'modifiers';

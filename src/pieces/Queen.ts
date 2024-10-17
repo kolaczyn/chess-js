@@ -1,12 +1,18 @@
-const Piece = require('./Piece');
+import Piece from './Piece.js';
+import { Color, Figure, SquareId, VirtualBoard } from '../types';
 
 class Queen extends Piece {
-  constructor(color, hasMoved, id) {
+  name: Figure;
+  constructor(color: Color, hasMoved: boolean, id: SquareId) {
     super(color, hasMoved, id);
     this.name = 'queen';
   }
 
-  getValidMoves(sqId, virtualBoard, checkForCheckmate) {
+  getValidMoves(
+    sqId: SquareId,
+    virtualBoard: VirtualBoard,
+    checkForCheckmate: boolean,
+  ) {
     const moves = [
       ...this.getValidDiagonalMoves(sqId, virtualBoard),
       ...this.getValidHorizontalMoves(sqId, virtualBoard),
@@ -18,4 +24,4 @@ class Queen extends Piece {
   }
 }
 
-module.exports = Queen;
+export default Queen;

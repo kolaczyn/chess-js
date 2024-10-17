@@ -1,33 +1,49 @@
+import {
+  CalculateSquare,
+  Color,
+  Figure,
+  PosArr,
+  PosId,
+  SquareId,
+  VirtualBoard,
+} from '../types';
+
 class Piece {
-  constructor(color, hasMoved, id) {
+  name!: Figure;
+  // @ts-expect-error the method is implemented in the subclasses
+  getValidMoves(
+    sqId: SquareId,
+    virtualBoard: VirtualBoard,
+    checkForCheckmate?: boolean,
+  ): SquareId[];
+
+  color: Color;
+  hasMoved: boolean;
+  id: SquareId;
+  constructor(color: Color, hasMoved: boolean, id: SquareId) {
     this.color = color;
     this.hasMoved = hasMoved;
     this.id = id;
-    // we don't care if bishop or knight has moved
-    // I might do something like this in the future:
-    // if (hasMoved !== undefined){
-    //   this.hasMoved=this.hasMoved
-    // }
   }
 
-  get row() {
-    return parseInt(this.id.split('-')[0]);
+  get row(): PosId {
+    return parseInt(this.id.split('-')[0]) as PosId;
   }
 
-  get col() {
-    return parseInt(this.id.split('-')[1]);
+  get col(): PosId {
+    return parseInt(this.id.split('-')[1]) as PosId;
   }
 
-  static sqIdToRowCol(sqId) {
+  static sqIdToRowCol(sqId: SquareId) {
     const [row, col] = sqId.split('-');
     return [parseInt(row), parseInt(col)];
   }
 
-  static isInRange(row, col) {
+  static isInRange(row: number, col: number) {
     return row >= 0 && row <= 7 && col >= 0 && col <= 7;
   }
 
-  static isSquareOccupied(row, col, virtualBoard) {
+  static isSquareOccupied(row: PosId, col: PosId, virtualBoard: VirtualBoard) {
     const piece = virtualBoard[`${row}-${col}`];
     if (piece) {
       return piece.color;
@@ -35,17 +51,23 @@ class Piece {
     return '';
   }
 
-  static rowColToSqId(row, col) {
+  static rowColToSqId(row: PosId, col: PosId): SquareId {
     return `${row}-${col}`;
   }
 
   // definitely will have to refactor this
   // helper function
-  // it stops when it encourters an obstacle
-  checkMovesBreak(virtualBoard, calculateSquare) {
-    const validMoves = [];
+  // it stops when it encounters an obstacle
+  checkMovesBreak(
+    virtualBoard: VirtualBoard,
+    calculateSquare: CalculateSquare,
+  ): SquareId[] {
+    const validMoves: SquareId[] = [];
     for (let i = 1; i < 8; i++) {
-      const checkedSquare = calculateSquare(this.row, this.col, i);
+      const checkedSquare = calculateSquare(this.row, this.col, i) as [
+        PosId,
+        PosId,
+      ];
       if (Piece.isInRange(...checkedSquare)) {
         const potentialPiece = Piece.isSquareOccupied(
           ...checkedSquare,
@@ -62,11 +84,15 @@ class Piece {
     return validMoves;
   }
 
-  // I should probably rewrite this so it accepts array of squares to check
+  // I should probably rewrite this, so it accepts array of squares to check
   // and then checks them, returns array of valid squares
-  checkMoves(virtualBoard, calculateSquare) {
-    const validMoves = [];
-    const checkedSquare = calculateSquare(this.row, this.col);
+  checkMoves(
+    virtualBoard: VirtualBoard,
+    calculateSquare: CalculateSquare,
+  ): SquareId[] {
+    const validMoves: SquareId[] = [];
+    // @ts-expect-error
+    const checkedSquare = calculateSquare(this.row, this.col) as PosArr;
     if (Piece.isInRange(...checkedSquare)) {
       const potentialPiece = Piece.isSquareOccupied(
         ...checkedSquare,
@@ -81,8 +107,10 @@ class Piece {
     return validMoves;
   }
 
-  getValidHorizontalMoves(sqId, virtualBoard) {
-    const [row, col] = Piece.sqIdToRowCol(sqId);
+  getValidHorizontalMoves(
+    _sqId: SquareId,
+    virtualBoard: VirtualBoard,
+  ): SquareId[] {
     const top = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c]);
     const right = this.checkMovesBreak(virtualBoard, (r, c, i) => [r, c + i]);
     const bottom = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c]);
@@ -91,34 +119,24 @@ class Piece {
     return [...top, ...right, ...bottom, ...left];
   }
 
-  getValidDiagonalMoves(sqId, virtualBoard) {
-    const [row, col] = Piece.sqIdToRowCol(sqId);
+  getValidDiagonalMoves(
+    _sqId: SquareId,
+    virtualBoard: VirtualBoard,
+  ): SquareId[] {
     const tl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c - i]);
     const tr = this.checkMovesBreak(virtualBoard, (r, c, i) => [r + i, c + i]);
     const br = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c + i]);
     const bl = this.checkMovesBreak(virtualBoard, (r, c, i) => [r - i, c - i]);
-    // console.log(sqId)
 
-    const intialMoves = [...tl, ...tr, ...br, ...bl];
-    // safe means that they don't cause the piece's king's "checkmate"
-    // if is here so we don't cause an infinite loop
-
-    // return safeMoves;
-    return intialMoves;
+    const initialMoves = [...tl, ...tr, ...br, ...bl];
+    return initialMoves;
   }
 
   // checks of the potential move causes the piece's king to be on a check
   // that's obviously an illegal move
   // analyze board if the piece has moved to sqId
   // find the king, figure out where the enemy can move and see if the king is in danger
-  checkForCheckmate(sqId, virtualBoard) {
-    // console.log("-beg-");
-    // console.log("this.id", virtualBoard[this.id]);
-    // console.log("sqId", virtualBoard[sqId]);
-    // sqId - where we want to go
-    // for a minute, change the virtual board. We'll return it to its original state
-    // before exiting the function
-
+  checkForCheckmate(sqId: SquareId, virtualBoard: VirtualBoard) {
     // save piece that may be where we want to move, so we can populate it later
     const otherPieceBuff = virtualBoard[sqId];
     // we remove the current position of the piece
@@ -126,14 +144,15 @@ class Piece {
     // we move the piece to sqId
     virtualBoard[sqId] = this;
 
-    let kingPos;
-    const dangerougSquares = [];
+    let kingPos: SquareId;
+    const dangerousSquares: SquareId[] = [];
     Object.entries(virtualBoard).forEach(([id, piece]) => {
-      // console.log(id, piece);
       if (piece.color !== this.color) {
-        dangerougSquares.push(...piece.getValidMoves(id, virtualBoard));
+        dangerousSquares.push(
+          ...piece.getValidMoves(id as SquareId, virtualBoard),
+        );
       } else if (piece.name === 'king') {
-        kingPos = id;
+        kingPos = id as SquareId;
       }
     });
     // cleaning up
@@ -142,10 +161,9 @@ class Piece {
     if (otherPieceBuff !== undefined) {
       virtualBoard[sqId] = otherPieceBuff;
     }
-    return !dangerougSquares.includes(kingPos);
-
-    // reverting virtualBoard to normal state
+    // @ts-expect-error
+    return !dangerousSquares.includes(kingPos);
   }
 }
 
-module.exports = Piece;
+export default Piece;

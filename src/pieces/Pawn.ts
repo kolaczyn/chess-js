@@ -1,19 +1,23 @@
-const Piece = require('./Piece');
+import Piece from './Piece';
+import { Color, Figure, SquareId, VirtualBoard } from '../types';
 
 class Pawn extends Piece {
-  constructor(color, hasMoved, id) {
+  name: Figure;
+  constructor(color: Color, _hasMoved: boolean, id: SquareId) {
     super(color, false, id);
     this.name = 'pawn';
   }
 
   // this is very messy, will have to come up with something better
   // also, implement attacking and en passant
-  getValidMoves(sqId, virtualBoard, checkForCheckmate) {
-    const out = [];
-    const moveSquaresToCheck = [];
+  getValidMoves(
+    _sqId: SquareId,
+    virtualBoard: VirtualBoard,
+    checkForCheckmate: boolean,
+  ): SquareId[] {
+    const out: SquareId[] = [];
     // attacks need to be checked differently, because pawn is weird
-    const attackSquaresToCheck = [];
-    let direction;
+    let direction: 1 | -1;
     if (this.color === 'white') {
       direction = 1;
     } else {
@@ -21,14 +25,14 @@ class Pawn extends Piece {
     }
 
     // this will have to do for now
-    const move1 = `${this.row + direction}-${this.col}`;
-    const move2 = `${this.row + direction * 2}-${this.col}`;
+    const move1 = `${this.row + direction}-${this.col}` as SquareId;
+    const move2 = `${this.row + direction * 2}-${this.col}` as SquareId;
 
     const move1Target = virtualBoard[move1];
     const move2Target = virtualBoard[move2];
 
-    const attack1 = `${this.row + direction}-${this.col - 1}`;
-    const attack2 = `${this.row + direction}-${this.col + 1}`;
+    const attack1 = `${this.row + direction}-${this.col - 1}` as SquareId;
+    const attack2 = `${this.row + direction}-${this.col + 1}` as SquareId;
 
     const attack1Target = virtualBoard[attack1];
     const attack2Target = virtualBoard[attack2];
@@ -46,11 +50,13 @@ class Pawn extends Piece {
       }
     }
     if (checkForCheckmate) {
-      return out.filter((id) => this.checkForCheckmate(id, virtualBoard));
+      return out.filter((id) =>
+        this.checkForCheckmate(id as SquareId, virtualBoard),
+      );
     }
 
     return out;
   }
 }
 
-module.exports = Pawn;
+export default Pawn;

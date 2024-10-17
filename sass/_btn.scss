@@ -1,7 +1,9 @@
+@use "variables";
+
 .btn {
   font-size: 2vmin;
   font-weight: bolder;
   padding: 0.6vmin 1.5vmin 0.6vmin 1.5vmin;
-  color: $color-text;
+  color: variables.$color-text;
   border-radius: 0.8vmin;
 }
