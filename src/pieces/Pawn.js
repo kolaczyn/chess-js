@@ -1,4 +1,4 @@
-const Piece = require('./Piece');
+import Piece from "./Piece";
 
 class Pawn extends Piece {
   constructor(color, hasMoved, id) {
@@ -53,4 +53,4 @@ class Pawn extends Piece {
   }
 }
 
-module.exports = Pawn;
+export default Pawn;

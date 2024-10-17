@@ -1,11 +1,10 @@
-const { Piece } = require('./pieces/Piece');
-const Bishop = require('./pieces/Bishop');
-const King = require('./pieces/King');
-const Rook = require('./pieces/Rook');
-const Queen = require('./pieces/Queen');
-const Pawn = require('./pieces/Pawn');
-const Knight = require('./pieces/Knight');
-
+import Piece from "./pieces/Piece";
+import Bishop from "./pieces/Bishop";
+import King from "./pieces/King";
+import Knight from "./pieces/Knight";
+import Pawn from "./pieces/Pawn";
+import Queen from "./pieces/Queen";
+import Rook from "./pieces/Rook";
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
 class Board {
@@ -236,4 +235,4 @@ class Board {
   }
 }
 
-module.exports = Board;
+export default Board;

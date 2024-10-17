@@ -107,5 +107,5 @@ const initialBoardState2 = {
   '6-7': 'black-pawn',
 };
 
-// module.exports = initialBoardState
-module.exports = initialBoardState0;
+export default initialBoardState0;
+

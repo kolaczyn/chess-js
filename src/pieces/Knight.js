@@ -1,4 +1,4 @@
-const Piece = require('./Piece');
+import Piece from "./Piece";
 
 class Knight extends Piece {
   constructor(color, hasMoved, id) {
@@ -43,4 +43,4 @@ class Knight extends Piece {
   }
 }
 
-module.exports = Knight;
+export default Knight;

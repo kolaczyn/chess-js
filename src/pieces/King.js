@@ -1,4 +1,4 @@
-const Piece = require('./Piece');
+import Piece from "./Piece";
 
 class King extends Piece {
   constructor(color, hasMoved, id) {
@@ -32,4 +32,5 @@ class King extends Piece {
     return validMoves;
   }
 }
-module.exports = King;
+
+export default King;
