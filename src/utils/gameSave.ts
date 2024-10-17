@@ -20,3 +20,7 @@ export const loadGame = (): GameSave | null => {
   const data = JSON.parse(gameSave) as GameSave;
   return data;
 };
+
+export const deleteGame = () => {
+  localStorage.removeItem(LOCAL_STORAGE_KEY);
+};
