@@ -196,6 +196,7 @@ class Board {
   movePieceDom(sqId: SquareId) {
     const initialSq = document.getElementById(this.selectedPiece!)!;
     const img = initialSq.style.backgroundImage;
+    // @ts-expect-error
     initialSq.style = '';
     const outSq = document.getElementById(sqId);
     // @ts-expect-error
