@@ -1,3 +1,5 @@
+@use "variables";
+
 .rows-bar {
   flex-direction: column;
 }
@@ -22,9 +24,9 @@
 
 .bar {
   border-radius: .6vmin;
-  color: $color-white;
-  background-color: $color-black;
-  color: $color-white;
+  color: variables.$color-white;
+  background-color: variables.$color-black;
+  color: variables.$color-white;
   display: flex;
   font-weight: 500;
   justify-content: space-around;

@@ -1,3 +1,5 @@
+@use "variables";
+
 .blacks-turn {
   grid-column: 4 / span 1;
   align-self: end;
@@ -9,7 +11,7 @@
 }
 
 .turn-indicator {
-  background-color: $color-black;
+  background-color: variables.$color-black;
   display: flex;
   align-items: center;
   text-align: left;
