@@ -4,7 +4,7 @@
   background-color: variables.$color-black;
   font-weight: bold;
   border-radius: .6vmin;
-  grid-column: 4 / span 1;
+  grid-column: 5 / span 1;
   grid-row: 2 / span 1;
   font-size: 2vmin;
   padding: 1.2vmin;
@@ -34,6 +34,10 @@
   &__footer{
 
   }
+}
+
+.notification-sink--left {
+  grid-column: 1 / span 1;
 }
 
 #clear-notifications-btn {

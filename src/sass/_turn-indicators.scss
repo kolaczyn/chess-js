@@ -1,13 +1,13 @@
 @use "variables";
 
 .blacks-turn {
-  grid-column: 4 / span 1;
+  grid-column: 5 / span 1;
   align-self: end;
 
 }
 
 .whites-turn {
-  grid-column: 4 / span 1;
+  grid-column: 5 / span 1;
 }
 
 .turn-indicator {

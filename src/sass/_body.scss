@@ -17,7 +17,7 @@ body {
 .content {
   display: grid;
   /* make media queries here, condition: if (width<height) ... else .... */
-  grid-template-columns: 5vmin 64vmin 5vmin 20vmin;
+  grid-template-columns: 20vmin 5vmin 64vmin 5vmin 20vmin;
   grid-template-rows: 5vmin 64vmin 5vmin;
   gap: 1vmin;
 }

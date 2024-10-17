@@ -5,12 +5,12 @@
 }
 
 .cols-bar {
-  grid-column: 2 / span 1;
+  grid-column: 3 / span 1;
   flex-direction: row;
 }
 
 .north-bar {
-  grid-column: 2 / span 1;
+  grid-column: 3 / span 1;
 }
 
 .west-bar {
@@ -19,7 +19,7 @@
 
 .east-bar {
   grid-row: 2 / span 1;
-  grid-column: 3 / span 1;
+  grid-column: 4 / span 1;
 }
 
 .bar {
