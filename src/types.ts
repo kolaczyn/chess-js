@@ -23,8 +23,20 @@ export type DidKingMove = {
   black: boolean;
 };
 
+export type DidRookMoveKey = `${'a' | 'h'}-${Color}`;
+
 // should be named BoardState, but it's already used
 export type BoardInfo = {
   whoseTurn: Color;
   didKingMove: DidKingMove;
+  didRookMove: Record<DidRookMoveKey, boolean>;
+};
+
+export const FILE = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'] as const;
+export type File = (typeof FILE)[number];
+export const RANK = ['1', '2', '3', '4', '5', '6', '7', '8'] as const;
+export type Rank = (typeof RANK)[number];
+export type FileRank = {
+  file: File;
+  rank: Rank;
 };

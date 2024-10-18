@@ -31,3 +31,4 @@ yarn dev
 - [ ] Menu
 - [ ] AI
 - [ ] Let two random people play against each other
+- [ ] Show difference in material

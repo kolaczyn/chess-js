@@ -116,6 +116,12 @@ export const initialBoardInfo: BoardInfo = {
     white: false,
     black: false,
   },
+  didRookMove: {
+    'a-black': false,
+    'a-white': false,
+    'h-black': false,
+    'h-white': false,
+  },
 };
 
 export default initialBoardState0;

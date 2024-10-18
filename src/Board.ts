@@ -9,6 +9,7 @@ import {
 import { saveGame } from './utils/gameSave.ts';
 import { idToHumRead } from './utils/idToHumRead.ts';
 import { stringToClass } from './utils/figureToClass.ts';
+import { sqIdToFileRank } from './utils/sqIdToFileRank.ts';
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
@@ -113,7 +114,7 @@ class Board {
       } else {
         // we want to move
         if (this.validMoves.includes(sqId)) {
-          this.saveKingMoved(this.selectedPiece!);
+          this.saveKingRookMoved(this.selectedPiece!);
           this.movePiece(sqId);
           this.nextTurn(sqId);
 
@@ -123,13 +124,27 @@ class Board {
     }
   }
 
-  saveKingMoved(sqId: SquareId) {
+  saveKingRookMoved(sqId: SquareId) {
     const piece = this.virtualBoard[sqId];
     if (!piece) return;
-    const kingMoved = piece.name === 'king';
-    if (!kingMoved) return;
 
-    this.boardInfo.didKingMove[piece.color] = true;
+    const kingMoved = piece.name === 'king';
+    if (kingMoved) {
+      this.boardInfo.didKingMove[piece.color] = true;
+      return;
+    }
+    const rookMoved = piece.name === 'rook';
+    if (rookMoved) {
+      const { file, rank } = sqIdToFileRank(sqId);
+      if (file === 'a' && rank === '8' && piece.color === 'black')
+        this.boardInfo.didRookMove['a-black'] = true;
+      if (file === 'h' && rank === '8' && piece.color === 'black')
+        this.boardInfo.didRookMove['h-black'] = true;
+      if (file === 'a' && rank === '1' && piece.color === 'white')
+        this.boardInfo.didRookMove['a-white'] = true;
+      if (file === 'h' && rank === '1' && piece.color === 'white')
+        this.boardInfo.didRookMove['h-white'] = true;
+    }
   }
 
   checkForMate() {
