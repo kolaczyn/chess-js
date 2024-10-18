@@ -1,11 +1,7 @@
-import Bishop from './pieces/Bishop';
-import King from './pieces/King';
-import Knight from './pieces/Knight';
-import Pawn from './pieces/Pawn';
-import Queen from './pieces/Queen';
-import Rook from './pieces/Rook';
 import { BoardState, Color, Figure, SquareId, VirtualBoard } from './types';
 import { saveGame } from './utils/gameSave.ts';
+import { idToHumRead } from './utils/idToHumRead.ts';
+import { stringToClass } from './utils/figureToClass.ts';
 
 // overwriting default state for testing
 // initialBoardState = testingBoardState1
@@ -39,29 +35,10 @@ class Board {
     this.mateIndicator = document.getElementById('notification-sink__mate')!;
   }
 
-  static stringToClass(s: Figure) {
-    switch (s) {
-      case 'rook':
-        return Rook;
-      case 'knight':
-        return Knight;
-      case 'bishop':
-        return Bishop;
-      case 'queen':
-        return Queen;
-      case 'king':
-        return King;
-      case 'pawn':
-        return Pawn;
-      default:
-        throw new Error('Invalid piece class name.');
-    }
-  }
-
   initializeVirtualBoard(initialBoardState: BoardState) {
     Object.entries(initialBoardState).forEach(([key, value]) => {
       const [color, pieceName] = value.split('-');
-      const pieceConstructor = Board.stringToClass(pieceName as Figure);
+      const pieceConstructor = stringToClass(pieceName as Figure);
       this.virtualBoard[key as SquareId] = new pieceConstructor(
         color as Color,
         false,
@@ -252,19 +229,9 @@ class Board {
   addTurnToHistory(sqId: SquareId) {
     const a = document.createElement('a');
     // @ts-expect-error
-    a.innerHTML = `${this.idToHumRead(this.selectedPiece)} ${this.idToHumRead(
-      sqId,
-    )}`;
+    a.innerHTML = `${idToHumRead(this.selectedPiece)} ${idToHumRead(sqId)}`;
     a.href = '#';
     this.notificationSink.appendChild(a);
-  }
-
-  idToHumRead(id: SquareId) {
-    let [row, col] = id.split('-');
-    // @ts-expect-error
-    row = parseInt(row) + 1;
-    col = String.fromCharCode('A'.charCodeAt(0) + parseInt(col));
-    return `${row}-${col}`;
   }
 }
 
