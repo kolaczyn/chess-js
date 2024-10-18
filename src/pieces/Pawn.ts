@@ -50,9 +50,7 @@ class Pawn extends Piece {
       }
     }
     if (checkForCheckmate) {
-      return out.filter((id) =>
-        this.checkForCheckmate(id as SquareId, virtualBoard),
-      );
+      return out.filter((id) => this.checkForCheckmate(id, virtualBoard));
     }
 
     return out;

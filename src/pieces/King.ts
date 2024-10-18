@@ -35,7 +35,7 @@ class King extends Piece {
     }
     if (checkForCheckmate) {
       return validMoves.filter((id) =>
-        this.checkForCheckmate(id as SquareId, virtualBoard),
+        this.checkForCheckmate(id, virtualBoard),
       );
     }
     return validMoves;

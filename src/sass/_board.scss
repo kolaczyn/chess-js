@@ -6,17 +6,15 @@
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   grid-template-rows: repeat(8, 1fr);
-}
 
-// outdo the board's rotation on the children
-#chess-div.rotate > button {
-  transform: rotate(180deg);
-}
-
-#chess-div {
   background-color: variables.$color-board-white;
   border-radius: 0.6vmin;
   overflow: hidden;
 
   cursor: pointer;
+}
+
+// outdo the board's rotation on the children
+#chess-div.rotate > button {
+  transform: rotate(180deg);
 }
