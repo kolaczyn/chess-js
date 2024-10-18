@@ -113,6 +113,7 @@ class Board {
       } else {
         // we want to move
         if (this.validMoves.includes(sqId)) {
+          this.saveKingMoved(this.selectedPiece!);
           this.movePiece(sqId);
           this.nextTurn(sqId);
 
@@ -120,6 +121,15 @@ class Board {
         }
       }
     }
+  }
+
+  saveKingMoved(sqId: SquareId) {
+    const piece = this.virtualBoard[sqId];
+    if (!piece) return;
+    const kingMoved = piece.name === 'king';
+    if (!kingMoved) return;
+
+    this.boardInfo.didKingMove[piece.color] = true;
   }
 
   checkForMate() {
