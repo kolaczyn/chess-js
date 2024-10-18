@@ -1,4 +1,4 @@
-import { BoardState } from './types';
+import { BoardInfo, BoardState } from './types';
 
 const initialBoardState0: BoardState = {
   '0-0': 'white-rook',
@@ -108,6 +108,14 @@ const initialBoardState2: BoardState = {
   '6-5': 'black-pawn',
   '6-6': 'black-pawn',
   '6-7': 'black-pawn',
+};
+
+export const initialBoardInfo: BoardInfo = {
+  whoseTurn: 'white',
+  didKingMove: {
+    white: false,
+    black: false,
+  },
 };
 
 export default initialBoardState0;

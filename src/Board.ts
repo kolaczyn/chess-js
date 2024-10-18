@@ -1,4 +1,11 @@
-import { BoardState, Color, Figure, SquareId, VirtualBoard } from './types';
+import {
+  BoardInfo,
+  BoardState,
+  Color,
+  Figure,
+  SquareId,
+  VirtualBoard,
+} from './types';
 import { saveGame } from './utils/gameSave.ts';
 import { idToHumRead } from './utils/idToHumRead.ts';
 import { stringToClass } from './utils/figureToClass.ts';
@@ -7,7 +14,7 @@ import { stringToClass } from './utils/figureToClass.ts';
 // initialBoardState = testingBoardState1
 
 class Board {
-  whoseTurn: 'white' | 'black';
+  boardInfo: BoardInfo;
   selectedPiece: SquareId | null;
   validMoves: SquareId[];
   virtualBoard: VirtualBoard;
@@ -17,8 +24,8 @@ class Board {
   notificationSink: HTMLElement;
   mateIndicator: HTMLElement;
 
-  constructor(initialBoardState: BoardState, whoseTurn: Color = 'white') {
-    this.whoseTurn = whoseTurn;
+  constructor(initialBoardState: BoardState, boardInfo: BoardInfo) {
+    this.boardInfo = boardInfo;
     this.selectedPiece = null;
     this.validMoves = [];
 
@@ -93,14 +100,14 @@ class Board {
     // we didn't select any piece prior, and we want to do this now
     if (!this.selectedPiece) {
       if (piece !== undefined) {
-        if (piece.color === this.whoseTurn) {
+        if (piece.color === this.boardInfo.whoseTurn) {
           this.showMoves(sqId);
           this.selectedPiece = sqId;
         }
       }
     } else {
       // we're checking if we want to change a piece we control
-      if (piece !== undefined && piece.color === this.whoseTurn) {
+      if (piece !== undefined && piece.color === this.boardInfo.whoseTurn) {
         this.showMoves(sqId);
         this.selectedPiece = sqId;
       } else {
@@ -109,7 +116,7 @@ class Board {
           this.movePiece(sqId);
           this.nextTurn(sqId);
 
-          saveGame(this.virtualBoard, this.whoseTurn);
+          saveGame(this.virtualBoard, this.boardInfo);
         }
       }
     }
@@ -121,7 +128,7 @@ class Board {
     let kingPos: SquareId;
     const dangerousSquares: SquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
-      if (piece.color !== this.whoseTurn) {
+      if (piece.color !== this.boardInfo.whoseTurn) {
         dangerousSquares.push(
           ...piece.getValidMoves(id as SquareId, this.virtualBoard),
         );
@@ -140,7 +147,7 @@ class Board {
   checkForCheckMate() {
     const validMoves: SquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
-      if (piece.color === this.whoseTurn) {
+      if (piece.color === this.boardInfo.whoseTurn) {
         const moves = piece.getValidMoves(
           id as SquareId,
           this.virtualBoard,
@@ -208,10 +215,10 @@ class Board {
   }
 
   switchTurnColor() {
-    if (this.whoseTurn === 'black') {
-      this.whoseTurn = 'white';
+    if (this.boardInfo.whoseTurn === 'black') {
+      this.boardInfo.whoseTurn = 'white';
     } else {
-      this.whoseTurn = 'black';
+      this.boardInfo.whoseTurn = 'black';
     }
   }
 

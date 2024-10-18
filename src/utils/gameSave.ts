@@ -1,16 +1,16 @@
-import { BoardState, Color, VirtualBoard } from '../types.ts';
+import { BoardInfo, BoardState, VirtualBoard } from '../types.ts';
 import { virtualBoardToBoardState } from './virtualBoardToBoardState.ts';
 
 const LOCAL_STORAGE_KEY = 'gameSave';
 
 type GameSave = {
-  whoseTurn: Color;
   boardState: BoardState;
+  boardInfo: BoardInfo;
 };
 
-export const saveGame = (virtualBoard: VirtualBoard, whoseTurn: Color) => {
+export const saveGame = (virtualBoard: VirtualBoard, boardInfo: BoardInfo) => {
   const boardState = virtualBoardToBoardState(virtualBoard);
-  const gameSave: GameSave = { whoseTurn, boardState };
+  const gameSave: GameSave = { boardState, boardInfo };
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(gameSave));
 };
 

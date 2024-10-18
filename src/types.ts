@@ -17,3 +17,14 @@ export type CalculateSquare = (
 ) => [number, number];
 
 export type PosArr = [PosId, PosId];
+
+export type DidKingMove = {
+  white: boolean;
+  black: boolean;
+};
+
+// should be named BoardState, but it's already used
+export type BoardInfo = {
+  whoseTurn: Color;
+  didKingMove: DidKingMove;
+};

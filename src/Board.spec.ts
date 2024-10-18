@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import initialBoardState from './initialBoardState.ts';
+import initialBoardState, { initialBoardInfo } from './initialBoardState.ts';
 import Board from './Board.ts';
 import fs from 'fs/promises';
 import { screen } from '@testing-library/dom';
@@ -10,7 +10,7 @@ const loadHtml = () =>
 const setup = async () => {
   document.body.innerHTML = await loadHtml();
 
-  new Board(initialBoardState);
+  new Board(initialBoardState, initialBoardInfo);
   const historyEl = screen.getByTestId('notification-sink');
   const getSquare = (row: number, col: number): HTMLElement | null =>
     screen.getByTestId(`square-${row}-${col}`);
