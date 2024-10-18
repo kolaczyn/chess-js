@@ -106,6 +106,7 @@ class Board {
     }
 
     square.id = `${col}-${row}`;
+    square.setAttribute('data-testid', `square-${col}-${row}`);
 
     return square;
   }
