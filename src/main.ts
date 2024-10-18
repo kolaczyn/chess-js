@@ -6,10 +6,10 @@ import { loadGame } from './utils/gameSave.ts';
 import { registerButtons } from './utils/registerButtons.ts';
 
 const loadedGame = loadGame();
-if (loadedGame) {
-  new Board(loadedGame.boardState, loadedGame.boardInfo);
-} else {
-  new Board(initialBoardState, initialBoardInfo);
-}
+const board = loadedGame
+  ? new Board(loadedGame.boardState, loadedGame.boardInfo)
+  : new Board(initialBoardState, initialBoardInfo);
+
+(window as any).board = board;
 
 registerButtons();
