@@ -200,7 +200,7 @@ const checkLine = (num: number) => {
   expect(result).toMatchObject(expected[num]);
 };
 
-test('adds 1 + 2 to equal 3', () => {
+test('chessNotationParser', () => {
   checkLine(0);
   checkLine(1);
   checkLine(2);

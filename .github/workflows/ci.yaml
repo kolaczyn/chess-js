@@ -14,17 +14,37 @@ jobs:
     name: Format, Lint, Check Types, test
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 20
       - run: yarn install
       - run: yarn ci
 
+  sonarcloud:
+    runs-on: ubuntu-latest
+    name: SonarCloud
+    steps:
+        - uses: actions/checkout@v3
+          with:
+            fetch-depth: 0
+        - uses: actions/setup-node@v3
+          with:
+            node-version: 20
+        - run: yarn install
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarcloud-github-action@master
+          env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   build:
     runs-on: ubuntu-latest
     name: Build
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 20
