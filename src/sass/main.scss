@@ -1,19 +1,19 @@
-@use "base";
+@use 'base';
 @use 'variables';
 
-@use "typography";
+@use 'typography';
 @use 'btn';
 
 @use 'body';
 
 @use 'square';
-@use "board";
+@use 'board';
 
-@use "bars";
+@use 'bars';
 @use 'fillers';
 
 @use 'notifications';
-@use "turn-indicators";
+@use 'turn-indicators';
 
 @use 'modifiers';
 @use 'button';

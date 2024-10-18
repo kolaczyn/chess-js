@@ -1,9 +1,9 @@
-@use "variables";
+@use 'variables';
 
 .notification-sink {
   background-color: variables.$color-black;
   font-weight: bold;
-  border-radius: .6vmin;
+  border-radius: 0.6vmin;
   grid-column: 5 / span 1;
   grid-row: 2 / span 1;
   font-size: 2vmin;
@@ -12,27 +12,25 @@
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  &__divider{
+  &__divider {
     border-radius: 2vmin;
-    margin-top: .75vmin;
-    height: .4vmin;
-    background-color: rgba(variables.$color-black-dark, .4);    
+    margin-top: 0.75vmin;
+    height: 0.4vmin;
+    background-color: rgba(variables.$color-black-dark, 0.4);
     width: 100%;
-    margin-top: .75vmin;
-    margin-bottom: .75vmin;
+    margin-top: 0.75vmin;
+    margin-bottom: 0.75vmin;
   }
-  &__buttons{
+  &__buttons {
     margin-top: 1vmin;
     display: flex;
     justify-content: space-between;
   }
-  &__body{
+  &__body {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-      
   }
-  &__footer{
-
+  &__footer {
   }
 }
 
@@ -44,7 +42,7 @@
   background-color: variables.$color-primary;
 }
 
-#reset-game-btn{
+#reset-game-btn {
   background-color: variables.$color-danger;
 }
 

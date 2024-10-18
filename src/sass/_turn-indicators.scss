@@ -1,9 +1,8 @@
-@use "variables";
+@use 'variables';
 
 .blacks-turn {
   grid-column: 5 / span 1;
   align-self: end;
-
 }
 
 .whites-turn {
@@ -16,6 +15,6 @@
   align-items: center;
   text-align: left;
   padding: 1.2vmin;
-  border-radius: .6vmin;
+  border-radius: 0.6vmin;
   height: 90%;
 }
