@@ -15,9 +15,18 @@ const setup = async () => {
   const getSquare = (row: number, col: number): HTMLElement | null =>
     screen.getByTestId(`square-${row}-${col}`);
 
+  const getValidMoves = () => {
+    const validMoves = document.querySelectorAll('.square--valid-move');
+    const validMovesIds = [...validMoves].map(
+      (el) => el.getAttribute('data-testid')!,
+    );
+    return validMovesIds;
+  };
+
   return {
     historyEl,
     getSquare,
+    getValidMoves,
   };
 };
 
@@ -31,5 +40,41 @@ describe('board', async () => {
     getSquare(3, 4)!.click();
 
     expect(historyEl.textContent).toBe('2-E 4-E');
+  });
+
+  it('shows valid moves', async () => {
+    const { getSquare, getValidMoves } = await setup();
+
+    // no valid moves shown, because nothing is pressed
+    expect(getValidMoves()).toMatchInlineSnapshot(`[]`);
+
+    // pawn valid moves
+    getSquare(1, 4)!.click();
+
+    expect(getValidMoves()).toMatchInlineSnapshot(`
+      [
+        "square-3-4",
+        "square-2-4",
+      ]
+    `);
+
+    // knight valid moves
+    getSquare(0, 1)!.click();
+
+    expect(getValidMoves()).toMatchInlineSnapshot(`
+      [
+        "square-2-0",
+        "square-2-2",
+      ]
+    `);
+
+    //   rook valid moves
+    getSquare(0, 0)!.click();
+    // nothing, because rook is blocked on all sides
+    expect(getValidMoves()).toMatchInlineSnapshot(`[]`);
+
+    // black pawn valid moves - can't move because it's whites' turn
+    getSquare(6, 4)!.click();
+    expect(getValidMoves()).toMatchInlineSnapshot(`[]`);
   });
 });
