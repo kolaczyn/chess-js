@@ -11,7 +11,7 @@
     "types": "tsc --noEmit",
     "test": "vitest --run",
     "test:coverage": "vitest run --coverage --reporter=junit --outputFile=results/results.trx",
-    "ci": "run-p -l --aggregate-output format test"
+    "ci": "run-p -l --aggregate-output format types test"
   },
   "license": "MIT",
   "devDependencies": {
