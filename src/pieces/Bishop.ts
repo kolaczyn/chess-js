@@ -1,5 +1,5 @@
 import Piece from './Piece';
-import { Color, Figure, SquareId, VirtualBoard } from '../types';
+import { BoardInfo, Color, Figure, SquareId, VirtualBoard } from '../types';
 
 class Bishop extends Piece {
   name: Figure;
@@ -11,11 +11,14 @@ class Bishop extends Piece {
   getValidMoves(
     sqId: SquareId,
     virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ): SquareId[] {
     const moves = this.getValidDiagonalMoves(sqId, virtualBoard);
     if (checkForCheckmate) {
-      return moves.filter((id) => this.checkForCheckmate(id, virtualBoard));
+      return moves.filter((id) =>
+        this.checkForCheckmate(id, virtualBoard, boardInfo),
+      );
     }
     return moves;
   }

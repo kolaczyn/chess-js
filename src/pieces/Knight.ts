@@ -1,5 +1,5 @@
 import Piece from './Piece';
-import { Color, Figure, SquareId, VirtualBoard } from '../types';
+import { BoardInfo, Color, Figure, SquareId, VirtualBoard } from '../types';
 
 class Knight extends Piece {
   name: Figure;
@@ -11,6 +11,7 @@ class Knight extends Piece {
   getValidMoves(
     _sqId: SquareId,
     virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ) {
     const moves: SquareId[] = [];
@@ -26,7 +27,9 @@ class Knight extends Piece {
     moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r + 1, c + 2]));
 
     if (checkForCheckmate) {
-      return moves.filter((id) => this.checkForCheckmate(id, virtualBoard));
+      return moves.filter((id) =>
+        this.checkForCheckmate(id, virtualBoard, boardInfo),
+      );
     }
 
     return [...moves];

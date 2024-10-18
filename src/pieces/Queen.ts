@@ -1,5 +1,5 @@
 import Piece from './Piece.js';
-import { Color, Figure, SquareId, VirtualBoard } from '../types';
+import { BoardInfo, Color, Figure, SquareId, VirtualBoard } from '../types';
 
 class Queen extends Piece {
   name: Figure;
@@ -11,6 +11,7 @@ class Queen extends Piece {
   getValidMoves(
     sqId: SquareId,
     virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ) {
     const moves = [
@@ -18,7 +19,9 @@ class Queen extends Piece {
       ...this.getValidHorizontalMoves(sqId, virtualBoard),
     ];
     if (checkForCheckmate) {
-      return moves.filter((id) => this.checkForCheckmate(id, virtualBoard));
+      return moves.filter((id) =>
+        this.checkForCheckmate(id, virtualBoard, boardInfo),
+      );
     }
     return moves;
   }

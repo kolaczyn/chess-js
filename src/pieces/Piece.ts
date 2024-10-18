@@ -1,4 +1,5 @@
 import {
+  BoardInfo,
   CalculateSquare,
   Color,
   Figure,
@@ -14,6 +15,7 @@ class Piece {
   getValidMoves(
     sqId: SquareId,
     virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
     checkForCheckmate?: boolean,
   ): SquareId[];
 
@@ -34,9 +36,9 @@ class Piece {
     return parseInt(this.id.split('-')[1]) as PosId;
   }
 
-  static sqIdToRowCol(sqId: SquareId) {
+  static sqIdToRowCol(sqId: SquareId): [row: PosId, col: PosId] {
     const [row, col] = sqId.split('-');
-    return [parseInt(row), parseInt(col)];
+    return [parseInt(row), parseInt(col)] as [PosId, PosId];
   }
 
   static isInRange(row: number, col: number) {
@@ -136,7 +138,11 @@ class Piece {
   // that's obviously an illegal move
   // analyze board if the piece has moved to sqId
   // find the king, figure out where the enemy can move and see if the king is in danger
-  checkForCheckmate(sqId: SquareId, virtualBoard: VirtualBoard) {
+  checkForCheckmate(
+    sqId: SquareId,
+    virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
+  ) {
     // save piece that may be where we want to move, so we can populate it later
     const otherPieceBuff = virtualBoard[sqId];
     // we remove the current position of the piece
@@ -149,7 +155,7 @@ class Piece {
     Object.entries(virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.color) {
         dangerousSquares.push(
-          ...piece.getValidMoves(id as SquareId, virtualBoard),
+          ...piece.getValidMoves(id as SquareId, virtualBoard, boardInfo),
         );
       } else if (piece.name === 'king') {
         kingPos = id as SquareId;
