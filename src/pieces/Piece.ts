@@ -22,16 +22,9 @@ class Piece {
   ): SquareId[];
 
   color: Color;
-  hasMoved: boolean;
   id: SquareId;
-  constructor(
-    color: Color,
-    hasMoved: boolean,
-    id: SquareId,
-    virtualBoard: VirtualBoard,
-  ) {
+  constructor(color: Color, id: SquareId, virtualBoard: VirtualBoard) {
     this.color = color;
-    this.hasMoved = hasMoved;
     this.id = id;
     this.virtualBoard = virtualBoard;
     this.boardHelpers = new BoardHelpers(virtualBoard);

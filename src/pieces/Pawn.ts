@@ -11,17 +11,12 @@ import { sqIdToFileRank } from '../utils/sqIdToFileRank.ts';
 
 class Pawn extends Piece implements IPiece {
   name: Figure;
-  constructor(
-    color: Color,
-    _hasMoved: boolean,
-    id: SquareId,
-    vb: VirtualBoard,
-  ) {
-    super(color, false, id, vb);
+  constructor(color: Color, id: SquareId, vb: VirtualBoard) {
+    super(color, id, vb);
     this.name = 'pawn';
   }
 
-  get hasMovedNew() {
+  get hasMoved() {
     const color = this.color;
     const { rank } = sqIdToFileRank(this.id);
     if (color === 'white' && rank === '2') return false;
@@ -66,7 +61,7 @@ class Pawn extends Piece implements IPiece {
     }
     if (!move1Target) {
       out.push(move1);
-      if (!move2Target && !this.hasMovedNew) {
+      if (!move2Target && !this.hasMoved) {
         out.push(move2);
       }
     }

@@ -10,8 +10,8 @@ import {
 
 class Bishop extends Piece implements IPiece {
   name: Figure;
-  constructor(color: Color, hasMoved: boolean, id: SquareId, vb: VirtualBoard) {
-    super(color, hasMoved, id, vb);
+  constructor(color: Color, id: SquareId, vb: VirtualBoard) {
+    super(color, id, vb);
     this.name = 'bishop';
   }
 

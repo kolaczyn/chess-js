@@ -49,7 +49,6 @@ class Board {
       const pieceConstructor = stringToClass(pieceName as Figure);
       this.virtualBoard[key as SquareId] = new pieceConstructor(
         color as Color,
-        false,
         key as SquareId,
         this.virtualBoard,
       );
@@ -196,8 +195,6 @@ class Board {
     const buff = this.virtualBoard[this.selectedPiece];
     // @ts-expect-error
     this.virtualBoard[this.selectedPiece].id = sqId; // change sqId on the object
-    // @ts-expect-error
-    this.virtualBoard[this.selectedPiece].hasMoved = true;
     // @ts-expect-error
     delete this.virtualBoard[this.selectedPiece];
     this.virtualBoard[sqId] = buff;
