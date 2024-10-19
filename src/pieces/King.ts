@@ -10,6 +10,7 @@ import {
 } from '../types';
 import { flags } from '../flags.ts';
 import { toSqId } from '../utils/fileRankToSqId.ts';
+import { sqIdToRowCol } from '../utils/sqIdToRowCol.ts';
 
 class King extends Piece {
   name: Figure;
@@ -28,7 +29,7 @@ class King extends Piece {
     const sqIdsToCheck = filesToCheck.map((file) => toSqId(file, rank));
 
     const areAllFree = sqIdsToCheck.every((sqId) => {
-      const [row, col] = Piece.sqIdToRowCol(sqId);
+      const [row, col] = sqIdToRowCol(sqId);
       const isFree = !Piece.isSquareOccupied(row, col, virtualBoard);
       return isFree;
     });

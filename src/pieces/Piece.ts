@@ -28,24 +28,23 @@ class Piece {
     this.id = id;
   }
 
-  get row(): PosId {
+  protected get row(): PosId {
     return parseInt(this.id.split('-')[0]) as PosId;
   }
 
-  get col(): PosId {
+  protected get col(): PosId {
     return parseInt(this.id.split('-')[1]) as PosId;
   }
 
-  static sqIdToRowCol(sqId: SquareId): [row: PosId, col: PosId] {
-    const [row, col] = sqId.split('-');
-    return [parseInt(row), parseInt(col)] as [PosId, PosId];
-  }
-
-  static isInRange(row: number, col: number) {
+  protected static isInRange(row: number, col: number) {
     return row >= 0 && row <= 7 && col >= 0 && col <= 7;
   }
 
-  static isSquareOccupied(row: PosId, col: PosId, virtualBoard: VirtualBoard) {
+  protected static isSquareOccupied(
+    row: PosId,
+    col: PosId,
+    virtualBoard: VirtualBoard,
+  ) {
     const piece = virtualBoard[`${row}-${col}`];
     if (piece) {
       return piece.color;
@@ -53,14 +52,14 @@ class Piece {
     return '';
   }
 
-  static rowColToSqId(row: PosId, col: PosId): SquareId {
+  private static rowColToSqId(row: PosId, col: PosId): SquareId {
     return `${row}-${col}`;
   }
 
   // definitely will have to refactor this
   // helper function
   // it stops when it encounters an obstacle
-  checkMovesBreak(
+  private checkMovesBreak(
     virtualBoard: VirtualBoard,
     calculateSquare: CalculateSquare,
   ): SquareId[] {
@@ -88,7 +87,7 @@ class Piece {
 
   // I should probably rewrite this, so it accepts array of squares to check
   // and then checks them, returns array of valid squares
-  checkMoves(
+  protected checkMoves(
     virtualBoard: VirtualBoard,
     calculateSquare: CalculateSquare,
   ): SquareId[] {
@@ -109,7 +108,7 @@ class Piece {
     return validMoves;
   }
 
-  getValidHorizontalMoves(
+  protected getValidHorizontalMoves(
     _sqId: SquareId,
     virtualBoard: VirtualBoard,
   ): SquareId[] {
@@ -121,7 +120,7 @@ class Piece {
     return [...top, ...right, ...bottom, ...left];
   }
 
-  getValidDiagonalMoves(
+  protected getValidDiagonalMoves(
     _sqId: SquareId,
     virtualBoard: VirtualBoard,
   ): SquareId[] {
@@ -138,7 +137,7 @@ class Piece {
   // that's obviously an illegal move
   // analyze board if the piece has moved to sqId
   // find the king, figure out where the enemy can move and see if the king is in danger
-  checkForCheckmate(
+  protected checkForCheckmate(
     sqId: SquareId,
     virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
