@@ -1,3 +1,3 @@
 export const flags = {
-  castling: false,
+  castling: true,
 };

@@ -5,8 +5,10 @@ import {
   Figure,
   IPiece,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from '../types';
+import { tagRegular, tagRegularOne } from '../utils/tagMove.ts';
 
 class Knight extends Piece implements IPiece {
   name: Figure;
@@ -19,7 +21,7 @@ class Knight extends Piece implements IPiece {
     _sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
-  ) {
+  ): TaggedSquareId[] {
     const moves: SquareId[] = [];
     // I don't like it; find another way
     moves.push(...this.checkMoves((r, c, _i) => [r - 2, c - 1]));
@@ -33,10 +35,14 @@ class Knight extends Piece implements IPiece {
     moves.push(...this.checkMoves((r, c, _i) => [r + 1, c + 2]));
 
     if (checkForCheckmate) {
-      return moves.filter((id) => this.checkForCheckmate(id, boardInfo));
+      return tagRegular(
+        moves.filter((id) =>
+          this.checkForCheckmate(tagRegularOne(id), boardInfo),
+        ),
+      );
     }
 
-    return [...moves];
+    return tagRegular([...moves]);
   }
 }
 

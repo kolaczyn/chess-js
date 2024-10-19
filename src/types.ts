@@ -5,6 +5,12 @@ export type FigureColor = `${Color}-${Figure}`;
 export type PosId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type SquareId = `${PosId}-${PosId}`;
 
+export type MoveTag = 'regular' | 'castle' | 'en-passant' | 'promotion';
+export type TaggedSquareId = {
+  id: SquareId;
+  tag: MoveTag;
+};
+
 export interface IPiece {
   name: Figure;
   color: Color;
@@ -12,7 +18,7 @@ export interface IPiece {
     sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate?: boolean,
-  ): SquareId[];
+  ): TaggedSquareId[];
 }
 
 export type BoardState = Partial<Record<SquareId, FigureColor>>;

@@ -5,9 +5,11 @@ import {
   Figure,
   IPiece,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from '../types';
 import { sqIdToFileRank } from '../utils/sqIdToFileRank.ts';
+import { tagRegularOne } from '../utils/tagMove.ts';
 
 class Pawn extends Piece implements IPiece {
   name: Figure;
@@ -30,8 +32,8 @@ class Pawn extends Piece implements IPiece {
     _sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
-  ): SquareId[] {
-    const out: SquareId[] = [];
+  ): TaggedSquareId[] {
+    const out: TaggedSquareId[] = [];
     // attacks need to be checked differently, because pawn is weird
     let direction: 1 | -1;
     if (this.color === 'white') {
@@ -54,15 +56,15 @@ class Pawn extends Piece implements IPiece {
     const attack2Target = this.virtualBoard[attack2];
 
     if (attack1Target && attack1Target.color != this.color) {
-      out.push(attack1);
+      out.push(tagRegularOne(attack1));
     }
     if (attack2Target && attack2Target.color != this.color) {
-      out.push(attack2);
+      out.push(tagRegularOne(attack2));
     }
     if (!move1Target) {
-      out.push(move1);
+      out.push(tagRegularOne(move1));
       if (!move2Target && !this.hasMoved) {
-        out.push(move2);
+        out.push(tagRegularOne(move2));
       }
     }
     if (checkForCheckmate) {

@@ -4,6 +4,7 @@ import {
   Color,
   Figure,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from './types';
 import { saveGame } from './utils/gameSave.ts';
@@ -17,7 +18,7 @@ import { sqIdToFileRank } from './utils/sqIdToFileRank.ts';
 class Board {
   boardInfo: BoardInfo;
   selectedPiece: SquareId | null;
-  validMoves: SquareId[];
+  validMoves: TaggedSquareId[];
   virtualBoard: VirtualBoard;
   DomBoard: HTMLElement;
   whitesTurnIndicator: HTMLElement;
@@ -113,7 +114,7 @@ class Board {
         this.selectedPiece = sqId;
       } else {
         // we want to move
-        if (this.validMoves.includes(sqId)) {
+        if (this.validMoves.some((x) => x.id === sqId)) {
           this.saveKingRookMoved(this.selectedPiece!);
           this.movePiece(sqId);
           this.nextTurn(sqId);
@@ -151,7 +152,7 @@ class Board {
     // find the king, figure out where the enemy can move and see if the king is in danger
     this.mateIndicator.innerHTML = '';
     let kingPos: SquareId;
-    const dangerousSquares: SquareId[] = [];
+    const dangerousSquares: TaggedSquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.boardInfo.whoseTurn) {
         dangerousSquares.push(
@@ -170,7 +171,7 @@ class Board {
 
   // check if you can make any move to defend the king
   checkForCheckMate() {
-    const validMoves: SquareId[] = [];
+    const validMoves: TaggedSquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color === this.boardInfo.whoseTurn) {
         const moves = piece.getValidMoves(id as SquareId, this.boardInfo, true);
@@ -215,18 +216,18 @@ class Board {
     if (piece) {
       // removing class from the old moves
       this.validMoves.forEach((m) => {
-        const moveSq = document.getElementById(m)!;
+        const moveSq = document.getElementById(m.id)!;
         moveSq.classList.remove('square--valid-move');
       });
       const moves = piece.getValidMoves(sqId, this.boardInfo, true);
       moves.forEach((m) => {
-        const moveSq = document.getElementById(m)!;
+        const moveSq = document.getElementById(m.id)!;
         moveSq.classList.add('square--valid-move');
       });
       this.validMoves = moves;
     } else {
       this.validMoves.forEach((m) => {
-        const moveSq = document.getElementById(m)!;
+        const moveSq = document.getElementById(m.id)!;
         moveSq.classList.remove('square--valid-move');
       });
       this.validMoves = [];

@@ -7,11 +7,13 @@ import {
   IPiece,
   PosId,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from '../types';
 import { flags } from '../flags.ts';
 import { toSqId } from '../utils/fileRankToSqId.ts';
 import { sqIdToRowCol } from '../utils/sqIdToRowCol.ts';
+import { tagCastle, tagRegular } from '../utils/tagMove.ts';
 
 class King extends Piece implements IPiece {
   name: Figure;
@@ -64,7 +66,7 @@ class King extends Piece implements IPiece {
       }
     }
 
-    return validMoves;
+    return tagCastle(validMoves);
   }
 
   getValidRegularMoves() {
@@ -86,14 +88,14 @@ class King extends Piece implements IPiece {
         }
       }
     }
-    return validMoves;
+    return tagRegular(validMoves);
   }
 
   getValidMoves(
     _sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
-  ): SquareId[] {
+  ): TaggedSquareId[] {
     const validRegularMoves = this.getValidRegularMoves();
     const validCastlingMoves = this.getValidCastlingMoves(boardInfo);
 

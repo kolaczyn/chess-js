@@ -6,9 +6,11 @@ import {
   PosArr,
   PosId,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from '../types';
 import { BoardHelpers } from './BoardHelpers.ts';
+import { tagRegular } from '../utils/tagMove.ts';
 
 class Piece {
   name!: Figure;
@@ -19,7 +21,7 @@ class Piece {
     sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate?: boolean,
-  ): SquareId[];
+  ): TaggedSquareId[];
 
   color: Color;
   id: SquareId;
@@ -90,39 +92,38 @@ class Piece {
     return validMoves;
   }
 
-  protected getValidHorizontalMoves(_sqId: SquareId): SquareId[] {
+  protected getValidHorizontalMoves(_sqId: SquareId): TaggedSquareId[] {
     const top = this.checkMovesBreak((r, c, i) => [r + i, c]);
     const right = this.checkMovesBreak((r, c, i) => [r, c + i]);
     const bottom = this.checkMovesBreak((r, c, i) => [r - i, c]);
     const left = this.checkMovesBreak((r, c, i) => [r, c - i]);
 
-    return [...top, ...right, ...bottom, ...left];
+    return tagRegular([...top, ...right, ...bottom, ...left]);
   }
 
-  protected getValidDiagonalMoves(_sqId: SquareId): SquareId[] {
+  protected getValidDiagonalMoves(_sqId: SquareId): TaggedSquareId[] {
     const tl = this.checkMovesBreak((r, c, i) => [r + i, c - i]);
     const tr = this.checkMovesBreak((r, c, i) => [r + i, c + i]);
     const br = this.checkMovesBreak((r, c, i) => [r - i, c + i]);
     const bl = this.checkMovesBreak((r, c, i) => [r - i, c - i]);
 
-    const initialMoves = [...tl, ...tr, ...br, ...bl];
-    return initialMoves;
+    return tagRegular([...tl, ...tr, ...br, ...bl]);
   }
 
   // checks of the potential move causes the piece's king to be on a check
   // that's obviously an illegal move
   // analyze board if the piece has moved to sqId
   // find the king, figure out where the enemy can move and see if the king is in danger
-  protected checkForCheckmate(sqId: SquareId, boardInfo: BoardInfo) {
+  protected checkForCheckmate(sqId: TaggedSquareId, boardInfo: BoardInfo) {
     // save piece that may be where we want to move, so we can populate it later
-    const otherPieceBuff = this.virtualBoard[sqId];
+    const otherPieceBuff = this.virtualBoard[sqId.id];
     // we remove the current position of the piece
     delete this.virtualBoard[this.id];
     // we move the piece to sqId
-    this.virtualBoard[sqId] = this;
+    this.virtualBoard[sqId.id] = this;
 
     let kingPos: SquareId;
-    const dangerousSquares: SquareId[] = [];
+    const dangerousSquares: TaggedSquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.color) {
         dangerousSquares.push(
@@ -133,10 +134,10 @@ class Piece {
       }
     });
     // cleaning up
-    delete this.virtualBoard[sqId];
+    delete this.virtualBoard[sqId.id];
     this.virtualBoard[this.id] = this;
     if (otherPieceBuff !== undefined) {
-      this.virtualBoard[sqId] = otherPieceBuff;
+      this.virtualBoard[sqId.id] = otherPieceBuff;
     }
     // @ts-expect-error
     return !dangerousSquares.includes(kingPos);

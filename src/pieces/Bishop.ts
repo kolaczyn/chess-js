@@ -5,6 +5,7 @@ import {
   Figure,
   IPiece,
   SquareId,
+  TaggedSquareId,
   VirtualBoard,
 } from '../types';
 
@@ -19,7 +20,7 @@ class Bishop extends Piece implements IPiece {
     sqId: SquareId,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
-  ): SquareId[] {
+  ): TaggedSquareId[] {
     const moves = this.getValidDiagonalMoves(sqId);
     if (checkForCheckmate) {
       return moves.filter((id) => this.checkForCheckmate(id, boardInfo));
