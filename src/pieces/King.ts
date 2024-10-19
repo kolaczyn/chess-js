@@ -110,8 +110,6 @@ class King extends Piece {
       boardInfo,
     );
 
-    console.log(validCastlingMoves);
-
     const validMoves = [...validRegularMoves, ...validCastlingMoves];
 
     if (checkForCheckmate) {
