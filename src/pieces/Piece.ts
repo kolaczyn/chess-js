@@ -139,8 +139,7 @@ class Piece {
     if (otherPieceBuff !== undefined) {
       this.virtualBoard[sqId.id] = otherPieceBuff;
     }
-    // @ts-expect-error
-    return !dangerousSquares.includes(kingPos);
+    return !dangerousSquares.some((x) => x.id === kingPos);
   }
 }
 
