@@ -1,7 +1,14 @@
 import Piece from './Piece.js';
-import { BoardInfo, Color, Figure, SquareId, VirtualBoard } from '../types';
+import {
+  BoardInfo,
+  Color,
+  Figure,
+  IPiece,
+  SquareId,
+  VirtualBoard,
+} from '../types';
 
-class Rook extends Piece {
+class Rook extends Piece implements IPiece {
   name: Figure;
   constructor(color: Color, hasMoved: boolean, id: SquareId) {
     super(color, hasMoved, id);

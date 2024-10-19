@@ -1,7 +1,14 @@
 import Piece from './Piece';
-import { BoardInfo, Color, Figure, SquareId, VirtualBoard } from '../types';
+import {
+  BoardInfo,
+  Color,
+  Figure,
+  IPiece,
+  SquareId,
+  VirtualBoard,
+} from '../types';
 
-class Pawn extends Piece {
+class Pawn extends Piece implements IPiece {
   name: Figure;
   constructor(color: Color, _hasMoved: boolean, id: SquareId) {
     super(color, false, id);

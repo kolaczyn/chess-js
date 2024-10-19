@@ -4,6 +4,7 @@ import {
   Color,
   Figure,
   File,
+  IPiece,
   PosId,
   SquareId,
   VirtualBoard,
@@ -12,7 +13,7 @@ import { flags } from '../flags.ts';
 import { toSqId } from '../utils/fileRankToSqId.ts';
 import { sqIdToRowCol } from '../utils/sqIdToRowCol.ts';
 
-class King extends Piece {
+class King extends Piece implements IPiece {
   name: Figure;
   constructor(color: Color, hasMoved: boolean, id: SquareId) {
     super(color, hasMoved, id);

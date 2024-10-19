@@ -1,5 +1,3 @@
-import Piece from './pieces/Piece.ts';
-
 export type Figure = 'rook' | 'knight' | 'bishop' | 'queen' | 'king' | 'pawn';
 export type Color = 'white' | 'black';
 export type FigureColor = `${Color}-${Figure}`;
@@ -7,8 +5,19 @@ export type FigureColor = `${Color}-${Figure}`;
 export type PosId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type SquareId = `${PosId}-${PosId}`;
 
+export interface IPiece {
+  name: Figure;
+  color: Color;
+  getValidMoves(
+    sqId: SquareId,
+    virtualBoard: VirtualBoard,
+    boardInfo: BoardInfo,
+    checkForCheckmate?: boolean,
+  ): SquareId[];
+}
+
 export type BoardState = Partial<Record<SquareId, FigureColor>>;
-export type VirtualBoard = Partial<Record<SquareId, Piece>>;
+export type VirtualBoard = Partial<Record<SquareId, IPiece>>;
 
 export type CalculateSquare = (
   r: PosId,
