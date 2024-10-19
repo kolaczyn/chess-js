@@ -10,33 +10,30 @@ import {
 
 class Knight extends Piece implements IPiece {
   name: Figure;
-  constructor(color: Color, hasMoved: boolean, id: SquareId) {
-    super(color, hasMoved, id);
+  constructor(color: Color, hasMoved: boolean, id: SquareId, vb: VirtualBoard) {
+    super(color, hasMoved, id, vb);
     this.name = 'knight';
   }
 
   getValidMoves(
     _sqId: SquareId,
-    virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ) {
     const moves: SquareId[] = [];
     // I don't like it; find another way
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r - 2, c - 1]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r - 2, c + 1]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r + 2, c - 1]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r + 2, c + 1]));
+    moves.push(...this.checkMoves((r, c, _i) => [r - 2, c - 1]));
+    moves.push(...this.checkMoves((r, c, _i) => [r - 2, c + 1]));
+    moves.push(...this.checkMoves((r, c, _i) => [r + 2, c - 1]));
+    moves.push(...this.checkMoves((r, c, _i) => [r + 2, c + 1]));
 
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r - 1, c - 2]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r - 1, c + 2]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r + 1, c - 2]));
-    moves.push(...this.checkMoves(virtualBoard, (r, c, _i) => [r + 1, c + 2]));
+    moves.push(...this.checkMoves((r, c, _i) => [r - 1, c - 2]));
+    moves.push(...this.checkMoves((r, c, _i) => [r - 1, c + 2]));
+    moves.push(...this.checkMoves((r, c, _i) => [r + 1, c - 2]));
+    moves.push(...this.checkMoves((r, c, _i) => [r + 1, c + 2]));
 
     if (checkForCheckmate) {
-      return moves.filter((id) =>
-        this.checkForCheckmate(id, virtualBoard, boardInfo),
-      );
+      return moves.filter((id) => this.checkForCheckmate(id, boardInfo));
     }
 
     return [...moves];

@@ -10,8 +10,13 @@ import {
 
 class Pawn extends Piece implements IPiece {
   name: Figure;
-  constructor(color: Color, _hasMoved: boolean, id: SquareId) {
-    super(color, false, id);
+  constructor(
+    color: Color,
+    _hasMoved: boolean,
+    id: SquareId,
+    vb: VirtualBoard,
+  ) {
+    super(color, false, id, vb);
     this.name = 'pawn';
   }
 
@@ -19,7 +24,6 @@ class Pawn extends Piece implements IPiece {
   // also, implement attacking and en passant
   getValidMoves(
     _sqId: SquareId,
-    virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ): SquareId[] {
@@ -36,14 +40,14 @@ class Pawn extends Piece implements IPiece {
     const move1 = `${this.row + direction}-${this.col}` as SquareId;
     const move2 = `${this.row + direction * 2}-${this.col}` as SquareId;
 
-    const move1Target = virtualBoard[move1];
-    const move2Target = virtualBoard[move2];
+    const move1Target = this.virtualBoard[move1];
+    const move2Target = this.virtualBoard[move2];
 
     const attack1 = `${this.row + direction}-${this.col - 1}` as SquareId;
     const attack2 = `${this.row + direction}-${this.col + 1}` as SquareId;
 
-    const attack1Target = virtualBoard[attack1];
-    const attack2Target = virtualBoard[attack2];
+    const attack1Target = this.virtualBoard[attack1];
+    const attack2Target = this.virtualBoard[attack2];
 
     if (attack1Target && attack1Target.color != this.color) {
       out.push(attack1);
@@ -58,9 +62,7 @@ class Pawn extends Piece implements IPiece {
       }
     }
     if (checkForCheckmate) {
-      return out.filter((id) =>
-        this.checkForCheckmate(id, virtualBoard, boardInfo),
-      );
+      return out.filter((id) => this.checkForCheckmate(id, boardInfo));
     }
 
     return out;

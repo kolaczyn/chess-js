@@ -10,7 +10,6 @@ export interface IPiece {
   color: Color;
   getValidMoves(
     sqId: SquareId,
-    virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
     checkForCheckmate?: boolean,
   ): SquareId[];

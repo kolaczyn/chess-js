@@ -15,15 +15,12 @@ import { sqIdToRowCol } from '../utils/sqIdToRowCol.ts';
 
 class King extends Piece implements IPiece {
   name: Figure;
-  constructor(color: Color, hasMoved: boolean, id: SquareId) {
-    super(color, hasMoved, id);
+  constructor(color: Color, hasMoved: boolean, id: SquareId, vb: VirtualBoard) {
+    super(color, hasMoved, id, vb);
     this.name = 'king';
   }
 
-  getValidCastlingMovesDirection(
-    virtualBoard: VirtualBoard,
-    direction: 'left' | 'right',
-  ): SquareId | null {
+  getValidCastlingMovesDirection(direction: 'left' | 'right'): SquareId | null {
     const rank = this.color === 'white' ? '1' : '8';
     const filesToCheck: File[] =
       direction === 'left' ? ['b', 'c', 'd'] : ['f', 'g'];
@@ -31,7 +28,7 @@ class King extends Piece implements IPiece {
 
     const areAllFree = sqIdsToCheck.every((sqId) => {
       const [row, col] = sqIdToRowCol(sqId);
-      const isFree = !Piece.isSquareOccupied(row, col, virtualBoard);
+      const isFree = !this.boardHelpers.isSquareOccupied(row, col);
       return isFree;
     });
 
@@ -42,7 +39,7 @@ class King extends Piece implements IPiece {
     return null;
   }
 
-  getValidCastlingMoves(virtualBoard: VirtualBoard, boardInfo: BoardInfo) {
+  getValidCastlingMoves(boardInfo: BoardInfo) {
     if (!flags.castling) return [];
 
     const validMoves: SquareId[] = [];
@@ -54,20 +51,14 @@ class King extends Piece implements IPiece {
     const didLeftRookMove = boardInfo.didRookMove[`a-${color}`];
     const didRightRookMove = boardInfo.didRookMove[`h-${color}`];
     if (!didLeftRookMove) {
-      const leftMove = this.getValidCastlingMovesDirection(
-        virtualBoard,
-        'left',
-      );
+      const leftMove = this.getValidCastlingMovesDirection('left');
       if (leftMove) {
         validMoves.push(leftMove);
       }
     }
 
     if (!didRightRookMove) {
-      const rightMove = this.getValidCastlingMovesDirection(
-        virtualBoard,
-        'right',
-      );
+      const rightMove = this.getValidCastlingMovesDirection('right');
       if (rightMove) {
         validMoves.push(rightMove);
       }
@@ -76,15 +67,14 @@ class King extends Piece implements IPiece {
     return validMoves;
   }
 
-  getValidRegularMoves(virtualBoard: VirtualBoard) {
+  getValidRegularMoves() {
     const validMoves: SquareId[] = [];
     for (let i = -1; i < 2; i++) {
       for (let j = -1; j < 2; j++) {
         if ((i || j) && Piece.isInRange(this.row + i, this.col + j)) {
-          const potentialPiece = Piece.isSquareOccupied(
+          const potentialPiece = this.boardHelpers.isSquareOccupied(
             (this.row + i) as PosId,
             (this.col + j) as PosId,
-            virtualBoard,
           );
           if (potentialPiece) {
             if (potentialPiece !== this.color) {
@@ -101,22 +91,16 @@ class King extends Piece implements IPiece {
 
   getValidMoves(
     _sqId: SquareId,
-    virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ): SquareId[] {
-    const validRegularMoves = this.getValidRegularMoves(virtualBoard);
-    const validCastlingMoves = this.getValidCastlingMoves(
-      virtualBoard,
-      boardInfo,
-    );
+    const validRegularMoves = this.getValidRegularMoves();
+    const validCastlingMoves = this.getValidCastlingMoves(boardInfo);
 
     const validMoves = [...validRegularMoves, ...validCastlingMoves];
 
     if (checkForCheckmate) {
-      return validMoves.filter((id) =>
-        this.checkForCheckmate(id, virtualBoard, boardInfo),
-      );
+      return validMoves.filter((id) => this.checkForCheckmate(id, boardInfo));
     }
     return validMoves;
   }

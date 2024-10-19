@@ -51,6 +51,7 @@ class Board {
         color as Color,
         false,
         key as SquareId,
+        this.virtualBoard,
       );
     });
   }
@@ -155,11 +156,7 @@ class Board {
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color !== this.boardInfo.whoseTurn) {
         dangerousSquares.push(
-          ...piece.getValidMoves(
-            id as SquareId,
-            this.virtualBoard,
-            this.boardInfo,
-          ),
+          ...piece.getValidMoves(id as SquareId, this.boardInfo),
         );
       } else if (piece.name === 'king') {
         kingPos = id as SquareId;
@@ -177,12 +174,7 @@ class Board {
     const validMoves: SquareId[] = [];
     Object.entries(this.virtualBoard).forEach(([id, piece]) => {
       if (piece.color === this.boardInfo.whoseTurn) {
-        const moves = piece.getValidMoves(
-          id as SquareId,
-          this.virtualBoard,
-          this.boardInfo,
-          true,
-        );
+        const moves = piece.getValidMoves(id as SquareId, this.boardInfo, true);
         if (moves) {
           validMoves.push(...moves);
         }
@@ -229,12 +221,7 @@ class Board {
         const moveSq = document.getElementById(m)!;
         moveSq.classList.remove('square--valid-move');
       });
-      const moves = piece.getValidMoves(
-        sqId,
-        this.virtualBoard,
-        this.boardInfo,
-        true,
-      );
+      const moves = piece.getValidMoves(sqId, this.boardInfo, true);
       moves.forEach((m) => {
         const moveSq = document.getElementById(m)!;
         moveSq.classList.add('square--valid-move');

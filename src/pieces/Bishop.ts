@@ -10,22 +10,19 @@ import {
 
 class Bishop extends Piece implements IPiece {
   name: Figure;
-  constructor(color: Color, hasMoved: boolean, id: SquareId) {
-    super(color, hasMoved, id);
+  constructor(color: Color, hasMoved: boolean, id: SquareId, vb: VirtualBoard) {
+    super(color, hasMoved, id, vb);
     this.name = 'bishop';
   }
 
   getValidMoves(
     sqId: SquareId,
-    virtualBoard: VirtualBoard,
     boardInfo: BoardInfo,
     checkForCheckmate: boolean,
   ): SquareId[] {
-    const moves = this.getValidDiagonalMoves(sqId, virtualBoard);
+    const moves = this.getValidDiagonalMoves(sqId);
     if (checkForCheckmate) {
-      return moves.filter((id) =>
-        this.checkForCheckmate(id, virtualBoard, boardInfo),
-      );
+      return moves.filter((id) => this.checkForCheckmate(id, boardInfo));
     }
     return moves;
   }
