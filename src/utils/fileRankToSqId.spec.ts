@@ -30,14 +30,14 @@ describe('converter', () => {
   test.each(fileRankSquareTestCases)(
     'converts file rank to square id',
     (expected, fileRank) => {
-      expect(fileRankToSqId(fileRank)).toMatchObject(expected);
+      expect(fileRankToSqId(fileRank)).toEqual(expected);
     },
   );
 
   test.each(fileRankSquareTestCases)(
     'converts file rank to square id (shorthand)',
     (expected, { file, rank }) => {
-      expect(toSqId(file, rank)).toMatchObject(expected);
+      expect(toSqId(file, rank)).toEqual(expected);
     },
   );
 });
