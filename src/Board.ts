@@ -113,10 +113,19 @@ class Board {
         this.showMoves(sqId);
         this.selectedPiece = sqId;
       } else {
+        const foundMove = this.validMoves.find((x) => x.id === sqId);
         // we want to move
-        if (this.validMoves.some((x) => x.id === sqId)) {
+        if (foundMove) {
           this.saveKingRookMoved(this.selectedPiece!);
           this.movePiece(sqId);
+
+          const isCastle = ['castle-long', 'castle-short'].includes(
+            foundMove.tag,
+          );
+          if (isCastle) {
+            this.selectedPiece = foundMove.id;
+          }
+
           this.nextTurn(sqId);
 
           saveGame(this.virtualBoard, this.boardInfo);

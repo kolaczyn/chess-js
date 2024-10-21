@@ -5,11 +5,20 @@ export type FigureColor = `${Color}-${Figure}`;
 export type PosId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type SquareId = `${PosId}-${PosId}`;
 
-export type MoveTag = 'regular' | 'castle' | 'en-passant' | 'promotion';
-export type TaggedSquareId = {
+export type MoveTagWithoutTarget = 'regular' | 'promotion';
+export type MoveTagWithTarget = 'en-passant' | 'castle-long' | 'castle-short';
+export type MoveTag = MoveTagWithoutTarget | MoveTagWithTarget;
+export type TaggedSquareIdNoTarget = {
   id: SquareId;
-  tag: MoveTag;
+  tag: MoveTagWithoutTarget;
 };
+
+export type TaggedSquareIdWithTarget = {
+  id: SquareId;
+  tag: MoveTagWithTarget;
+  target: SquareId;
+};
+export type TaggedSquareId = TaggedSquareIdNoTarget | TaggedSquareIdWithTarget;
 
 export interface IPiece {
   name: Figure;

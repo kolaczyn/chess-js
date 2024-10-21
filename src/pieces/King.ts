@@ -13,7 +13,7 @@ import {
 import { flags } from '../flags.ts';
 import { toSqId } from '../utils/fileRankToSqId.ts';
 import { sqIdToRowCol } from '../utils/sqIdToRowCol.ts';
-import { tagCastle, tagRegular } from '../utils/tagMove.ts';
+import { tagMove, tagRegular } from '../utils/tagMove.ts';
 
 class King extends Piece implements IPiece {
   name: Figure;
@@ -44,7 +44,7 @@ class King extends Piece implements IPiece {
   getValidCastlingMoves(boardInfo: BoardInfo) {
     if (!flags.castling) return [];
 
-    const validMoves: SquareId[] = [];
+    const validMoves: TaggedSquareId[] = [];
     const color = this.color;
 
     const didKingMove = boardInfo.didKingMove[color];
@@ -55,18 +55,18 @@ class King extends Piece implements IPiece {
     if (!didLeftRookMove) {
       const leftMove = this.getValidCastlingMovesDirection('left');
       if (leftMove) {
-        validMoves.push(leftMove);
+        validMoves.push({ id: leftMove, tag: 'castle-long', target: 'TODO' });
       }
     }
 
     if (!didRightRookMove) {
       const rightMove = this.getValidCastlingMovesDirection('right');
       if (rightMove) {
-        validMoves.push(rightMove);
+        validMoves.push({ id: rightMove, tag: 'castle-short', target: 'TODO' });
       }
     }
 
-    return tagCastle(validMoves);
+    return validMoves;
   }
 
   getValidRegularMoves() {
